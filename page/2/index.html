@@ -6,12 +6,12 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.jibanghua.cn">
-  <title>Archives: 2017/9 | JIMI</title>
+  <title>JIMI</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="努力超越那个谁">
 <meta property="og:type" content="website">
 <meta property="og:title" content="JIMI">
-<meta property="og:url" content="http://www.jibanghua.cn/archives/2017/09/index.html">
+<meta property="og:url" content="http://www.jibanghua.cn/page/2/index.html">
 <meta property="og:site_name" content="JIMI">
 <meta property="og:description" content="努力超越那个谁">
 <meta name="twitter:card" content="summary">
@@ -160,418 +160,181 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-AutoTest/自动化目的以及答疑" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/30/AutoTest/自动化目的以及答疑/">自动化目的以及答疑</a>
+    </h1>
+  
+
+        
+        <a href="/2017/09/30/AutoTest/自动化目的以及答疑/" class="archive-article-date">
+  	<time datetime="2017-09-30T15:50:02.624Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+</a>
+        
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="自动化的目的"><a href="#自动化的目的" class="headerlink" title="自动化的目的"></a>自动化的目的</h3><ul>
+<li>把测试从枯燥的重复劳动中解放出来，例如：回归测试等；</li>
+<li>协助手工测试完成很难模拟或无法模拟的的工作，例如：篡改服务返回的数据验证前端对各种数据场景的处理，弱网模拟、特殊协议数据包解析验证等；</li>
+<li>尽早发现Bug，例如：数据层的存储过程、Package批量调用验证、接口自动化等偏底层的问题；</li>
+<li>协助定位问题，现在的自动化提出了更高的要求，例如：接口层发现问题了，可以通过添加的traceID定位到日志错误或错误代码行，app运行中异常可捕获错误日志等；</li>
+<li>线上监控报警，现在的自动化不仅限于线下，线上的也已覆盖，测试和运维的工作可能存在交集，我们不能把质量问题寄托于他人，一旦发现问题，立即报警通知到人，让损失到最小。</li>
+<li>提高工作效率，这个面有点广，例如，测试环境的自动化编译、打包、部署、持续集成甚至持续交付等。</li>
+</ul>
+<h3 id="关于自动化介入的若干问题"><a href="#关于自动化介入的若干问题" class="headerlink" title="关于自动化介入的若干问题"></a>关于自动化介入的若干问题</h3><ul>
+<li>是否要考虑成本？ 当然要考虑，我们总会遇到在成本和质量之间找平衡点，可能一些特殊的行业，特殊的项目，质量的权重更高点，如果引入自动化能提高质量，该介入的还是要介入。</li>
+<li>是不是只有大公司能做， 小公司和初创公司就不适合搞自动化？这不是绝对的，还是要看公司的资源和人员配备，如果有能力做为什么不？况且小公司的自动化不一定要做到大公司的程度，只要能提高工作效率，提高质量就可以，滴水穿石，聚沙成塔。</li>
+<li>自动化何时介入？ 条件许可的还是尽早介入，越是底层的Bug，影响面越广，修复成本也是最低的。但这不是硬性标准，一般公司都是从UI自动化开始积累经验的，拔苗不能助长。</li>
+</ul>
+<h3 id="如何开展自动化工作"><a href="#如何开展自动化工作" class="headerlink" title="如何开展自动化工作"></a>如何开展自动化工作</h3><p>这个信息量比较大，人才和技术就不多说了，我更关心的是做事的方式</p>
+<ul>
+<li>抓住业务测试工作中的痛点和领导的痛点，多沟通多交流，优先解决基层的工作痛点，我相信一个好的领导会看到你的责任心和付出；</li>
+<li>技术选型和方案可行性调研，多投入时间和精力，有的人性子急，前期做的很快，如果一开始的方向错了，最终会得不偿失；</li>
+<li>如果是比较复杂的解决方案，尽量前后端分离、保证各模块的独立性、可融合性、解耦不解体，做到灵活可扩展，要有下一盘大棋的准备。</li>
+<li></li>
+</ul>
+<h4 id="大家的看法"><a href="#大家的看法" class="headerlink" title="大家的看法"></a>大家的看法</h4><p>每个公司的所谓的管理层对自动化理解的层面可能不一样，需要根据实际情况来做自动化，至少中心点不能偏离，需要紧扣业务，另外就是要能实际落地，还有一个就是维护成本及投入产出比。</p>
+<p>是否要考虑成本？ 当然要考虑，我们总会遇到在成本和质量之间找平衡点，可能一些特殊的行业，特殊的项目，质量的权重更高点，如果引入自动化能提高质量，该介入的还是要介入。<br>抓住业务测试工作中的痛点和领导的痛点，多沟通多交流，优先解决基层的工作痛点，我相信一个好的领导会看到你的责任心和付出</p>
+<h4 id="个人的提问"><a href="#个人的提问" class="headerlink" title="个人的提问"></a>个人的提问</h4><p>看到题主关于自动化的分享， 有几个延伸问题，自己在工作中一直思考，但是一直没有找到合适的答案。</p>
+<p>接口自动化和UI自动化的用例是完全重新设计，还是从业务用例中筛选？IF从业务用例中筛选的话，筛选的标准有哪些呢？（PS：接口用例中的接口参数类型的用例设计，暂不考虑）<br>接口自动化和UI自动化，互相之间有影响吗？或者说接口覆盖的用例和UI覆盖的用例之间是否有某种关联？IF有关联，请问需要多大粒度的关联比较合适？ELIF 没关联，请问两者之间各自为战吗？（PS：这样会不会导致测试覆盖率重复呢？）<br>如果UI层的用例Faile，是不是需要定位到对应的接口层？相反，接口层用例faile，是否需要定位到UI层，IF 以上需要，如何有效关联呢？Or 是否需要在分层测试的工程中，让他们互相成为彼此的辅助？</p>
+<h5 id="个人答案："><a href="#个人答案：" class="headerlink" title="个人答案："></a>个人答案：</h5><p>接口自动化和UI自动化的用例是完全重新设计，还是从业务用例中筛选？IF从业务用例中筛选的话，筛选的标准有哪些呢？（PS：接口用例中的接口参数类型的用例设计，暂不考虑）<br>－－我觉得接口自动化案例要重新设计，这里涉及到分层的概念，接口层更关注对数据的验证，处理各种请求参数正交场景下返回数据的正确性，涉及到增、删、改的接口还要关注数据落地的有效性。</p>
+<p>接口自动化和UI自动化，互相之间有影响吗？或者说接口覆盖的用例和UI覆盖的用例之间是否有某种关联？IF有关联，请问需要多大粒度的关联比较合适？ELIF 没关联，请问两者之间各自为战吗？（PS：这样会不会导致测试覆盖率重复呢？）<br>－－接口测试不一定和UI测试有关联，传统的接口测试，不需要等UI开发完成就可以介入了，从这点来说属于前置阶段的，通过Mock Client实现的接口测试；<br>－－UI测试和接口测试一定有关联，因为UI层的数据渲染大部分是通过调用接口获取的，在执行UI自动化的同时，有很多眼睛看不到摸不着的接口在来回穿梭，这些不是Mock Client发起的，而是由真实的程序发起的，场景化内部的参数动态关联等一系列问题，程序都会帮你自动处理。所以由UI测试发起的接口测试，只要你能劫持到接口返回的报文，实现起来比传统的要简单多了。</p>
+<p>如果UI层的用例Faile，是不是需要定位到对应的接口层？相反，接口层用例faile，是否需要定位到UI层，IF 以上需要，如何有效关联呢？Or 是否需要在分层测试的工程中，让他们互相成为彼此的辅助？<br>－－UI层Fail，接口层不一定Fail，因为即便接口是正确的，也不能保证UI层的数据再处理不会犯错。相反，接口层Fail了，与之相关的UI层必定Fail。如果接口层Fail，我们可以通过一些手段，例如：获取接口关键字、定制traceID，通过这些唯一性标识去定位错误日志或代码行。</p>
+<p>转载于<a href="https://testerhome.com/topics/6166" target="_blank" rel="external">Test-Home:quqing</a></p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/WEB/select2/jquery select2使用js赋值/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.755Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/WEB/select2/jquery select2使用js赋值/">jquery select2使用js赋值</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">WEB</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">自动化</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/30/AutoTest/自动化目的以及答疑/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/SOFT/GIT/LINUX实现免密钥登陆/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.730Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
   
     <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/SOFT/GIT/LINUX实现免密钥登陆/">LINUX实现免密钥登陆</a>
+      <a class="article-title" href="/2017/09/30/hello-world/">Hello World</a>
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIT</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/SOFT/GIT/git安装与使用/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.725Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
+        
+        <a href="/2017/09/30/hello-world/" class="archive-article-date">
+  	<time datetime="2017-09-30T14:41:22.391Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/SOFT/GIT/git安装与使用/">git安装与使用</a>
-    </h1>
-  
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
+<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">工具</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">GIT</a>
-        		</li>
-      		
-		</ul>
-	</div>
+      
 
-          
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+      
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/09/30/hello-world/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/JAVA/异步调用/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.703Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
         </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/JAVA/异步调用/">异步调用线程</a>
-    </h1>
-  
+        
+        
+    </div>
+</aside>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">JAVA基础</a>
-        		</li>
-      		
-		</ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/JAVA/冒泡排序/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.697Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/JAVA/冒泡排序/">冒泡的排序</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/JAVA/JAVA基础篇/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.692Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/JAVA/JAVA基础篇/">JAVA基础知识</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">JAVA</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/INFORMAL/测试的现状/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.680Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/INFORMAL/测试的现状/">测试现状</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/INFORMAL/hello-world/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.674Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/INFORMAL/hello-world/">Hello World</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/ESSAYS/高级测试工程师技术基础/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.661Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/ESSAYS/高级测试工程师技术基础/">高级测试工程师技术基础</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">随笔</a>
-        		</li>
-      		 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">职业生涯</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/09/30/Container/docker/Docker(一)--安装/" class="archive-article-date">
-  	<time datetime="2017-09-30T15:50:02.648Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-09-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/09/30/Container/docker/Docker(一)--安装/">Docker安装与调试</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Docker</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
   
   
-    </div></section>
-  
-
-    
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/archives/2017/09/page/2/">2</a><a class="extend next" rel="next" href="/archives/2017/09/page/2/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
     </nav>
   
 
@@ -595,9 +358,9 @@
     <script>
 	var yiliaConfig = {
 		mathjax: false,
-		isHome: false,
+		isHome: true,
 		isPost: false,
-		isArchive: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
