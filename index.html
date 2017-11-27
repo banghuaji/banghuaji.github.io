@@ -262,6 +262,807 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-VOLUME/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-VOLUME/" itemprop="url">Dockerfile-VOLUME 介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:36:09+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          在介绍VOLUME指令之前，我们来看下如下场景需求：
+1）容器是基于镜像创建的，最后的容器文件系统包括镜像的只读层+可写层，容器中的进程操作的数据持久化都是保存在容器的可写层上。一旦容器删除后，这些数据就没了，除非我们人工备份下来（或者基于容器创建新的镜像）。能否可以让容器进程持久化的数据保存在主机上呢？这样即使容器删除了，数据还在。
+2）当我们在开发一个web应用时，开发环境是在主机本地，但运行测试环境是放在docker容器上。
+这样的话，我在主机上修改文件（如html，js等）后，需要再同步到容器中。这显然比较麻烦。
+3）多个容器运行一组相关联的服务，如果他们要共享一些数据怎么办？
+对于这些问题，我们当然能想到各种解决方案。而docker本身提供了一种机制，可以将主机上的某个目录与容器的某个目录（称为挂载点、或者叫卷）关联起来，容器上的挂载点下的内容就是主机的这个目录下的内容，这类似linux系统下mount的机制。 这样的话，我们修改主机上该目录的内容时，不需要同步容器，对容器来说是立即生效的。 挂载点可以让多个容器共享。
+下面我们来介绍具体的机制。
+一、通过docker run
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-VOLUME/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-USER/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-USER/" itemprop="url">Dockerfile-USER 介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:47+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          USER指令用于指定容器执行程序的用户身份，默认是 root用户。
+在docker run 中可以通过 -u 选项来覆盖USER指令的设置。
+举例：1docker run -i -t -u mysql newmysqldb /bin/bash
+显示的shell提示符是：
+1mysql@57cd57edba38:/$
+注意：docker容器中的root用户密码是随机分配的。
+
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-USER/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile--WORKDIR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile--WORKDIR/" itemprop="url">Dockerfile--WORKDIR</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:28+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Dockerfile中的WORKDIR指令用于指定容器的一个目录， 容器启动时执行的命令会在该目录下执行。
+相当于设置容器的工作目录了。我们来看一个dockerfile文件
+1234567#testFROM ubuntuMAINTAINER helloRUN mkdir /mydirRUN echo hello world &gt; /mydir/test.txtWORKDIR /mydirCMD [&quot;more&quot; ,&quot;test.txt&quot;]
+假设根据该dockerfile构建的镜像名为 myimage
+1231、运行 docker run myimage  输出 hello world2、运行 docker run myimage more test.txt  和上面输出一致
+可以看出，more的参数是 test.txt，但没有指定路径，却能成功，说明当前路径就是上面WORKDIR指令设置的。
+如果我们在上面的dockerfile中把WORKDIR指令去掉，创建的容器运行会报文件不存在错误。
+3、可以在 docker run命令中用 -w参数覆盖掉
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile--WORKDIR/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-CMD/" itemprop="url">Dockerfile-CMD</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:11+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          CMD我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如：
+123docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程
+。
+除了这种方式外，我们可以在dockerfile文件中通过CMD指令指定容器启动时要执行的命令。如：
+复制代码
+12345678#testFROM ubuntuMAINTAINER xxxRUN echo hello1 &gt; test1.txtRUN echo hello2 &gt; /test2.txtEXPOSE 80EXPOSE 81CMD [&quot;/bin/bash&quot;]
+复制代码上面dockerfile文件中最后一行CMD指令的参数是指定容器启动时要执行的命令，这里是bin/bash命令。
+1、用docker run命令创建并启动容器（myimage  是用前面dockerfile创建
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-CMD/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-ENTRYPOINT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-ENTRYPOINT/" itemprop="url">Dockerfile-ENTRYPOINT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:34:55+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          本文介绍Dockerfile的 ENTRYPOINT指令的含义。
+先回顾下CMD指令的含义，CMD指令可以指定容器启动时要执行的命令，但它可以被docker run命令的参数覆盖掉。
+ENTRYPOINT 指令和CMD类似，它也可用户指定容器启动时要执行的命令，但如果dockerfile中也有CMD指令，CMD中的参数会被附加到ENTRYPOINT 指令的后面。 如果这时docker run命令带了参数，这个参数会覆盖掉CMD指令的参数，并也会附加到ENTRYPOINT 指令的后面。
+这样当容器启动后，会执行ENTRYPOINT 指令的参数部分。
+可以看出，相对来说ENTRYPOINT指令优先级更高。
+我们来看个例子，下面是Dockerfile的内容
+12345678#testFROM ubuntuMAINTAINER helloRUN echo hello1 &gt; test1.txtRUN echo hello2 &gt; /test2.txtEXPOSE 80ENTRYPOINT [&quot;echo&quot;]CMD [&quot;defaultvalue&quot;]
+
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-ENTRYPOINT/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-ADD2CPOY/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-ADD2CPOY/" itemprop="url">Dockerfile-ADD&CPOY</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:34:35+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          一、ADD指令ADD指令的功能是将主机构建环境（上下文）目录中的文件和目录、以及一个URL标记的文件 拷贝到镜像中。
+其格式是：1ADD  源路径  目标路径
+如：
+#test
+12345678FROM ubuntuMAINTAINER helloADD test1.txt test1.txtADD test1.txt test1.txt.bakADD test1.txt /mydir/ADD data1  data1ADD data2  data2ADD zip.tar /myzip
+有如下注意事项：
+1、如果源路径是个文件，且目标路径是以 / 结尾， 则docker会把目标路径当作一个目录，会把源文件拷贝到该目录下。
+如果目标路径不存在，则会自动创建目标路径。
+2、如果源路径是个文件，且目标路径是不是以 / 结尾，则docker会把目标路径当作一个文件。
+如果目标路径不存在，会以目标路径为名创建一个文件，内容同源文件；
+如果目标文件是个存在的文件，会用源文件覆盖它，当然只是内容覆盖，文件名还是目标文件名。
+如果目标文件实际是个存在的目录，则会源文件拷贝到该目录下。 注意，这种情况下
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-ADD2CPOY/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/03/language/groovy/Groovy脚本基础全攻略/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -800,804 +1601,6 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/29/language/groovy/groovy语法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/29/language/groovy/groovy语法/" itemprop="url">groovy基础</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-29T23:54:52+08:00">
-                2017-10-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          安装groovy：12345wget https://dl.bintray.com/groovy/maven/apache-groovy-binary-2.4.7.zipunzip apache-groovy-binary-2.4.7.zipsudo ln -s /home/osboxes/Downloads/groovy-2.4.7/bin/groovy /usr/bin/groovygroovy -vGroovy Version: 2.4.7 JVM: 1.8.0_91 Vendor: Oracle Corporation OS: Linux
-基础语法123456789101112131415161718192021#!/usr/bin/env groovy // Hello Worldprintln &quot;Hello world!&quot;  // Variables: You can assign values to variables for later usedef x = 1println x x = new java.util.Date()println x x
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/29/language/groovy/groovy语法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/29/language/pipeline/pipeline的基础语法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/29/language/pipeline/pipeline的基础语法/" itemprop="url">pipeline的基础语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-29T18:58:35+08:00">
-                2017-10-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          命令的执行步骤123456789101112131415Jenkinsfile (Declarative Pipeline)pipeline &#123;    agent any    stages &#123;        stage(&apos;Build&apos;) &#123;            steps &#123;                sh &apos;echo &quot;Hello World&quot;&apos;                sh &apos;&apos;&apos;                    echo &quot;Multiline shell steps works too&quot;                    ls -lah                &apos;&apos;&apos;            &#125;        &#125;    &#125;&#125;
-重试与超时1234567891011121314151617Jenkinsfile (Declarative P
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/29/language/pipeline/pipeline的基础语法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/08/autotest/自动化目的以及答疑/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/08/autotest/自动化目的以及答疑/" itemprop="url">自动化目的以及答疑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-08T22:20:13+08:00">
-                2017-10-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          自动化的目的
-把测试从枯燥的重复劳动中解放出来，例如：回归测试等；
-协助手工测试完成很难模拟或无法模拟的的工作，例如：篡改服务返回的数据验证前端对各种数据场景的处理，弱网模拟、特殊协议数据包解析验证等；
-尽早发现Bug，例如：数据层的存储过程、Package批量调用验证、接口自动化等偏底层的问题；
-协助定位问题，现在的自动化提出了更高的要求，例如：接口层发现问题了，可以通过添加的traceID定位到日志错误或错误代码行，app运行中异常可捕获错误日志等；
-线上监控报警，现在的自动化不仅限于线下，线上的也已覆盖，测试和运维的工作可能存在交集，我们不能把质量问题寄托于他人，一旦发现问题，立即报警通知到人，让损失到最小。
-提高工作效率，这个面有点广，例如，测试环境的自动化编译、打包、部署、持续集成甚至持续交付等。
-
-关于自动化介入的若干问题
-是否要考虑成本？ 当然要考虑，我们总会遇到在成本和质量之间找平衡点，可能一些特殊的行业，特殊的项目，质量的权重更高点，如果引入自动化能提高质量，该介入的还是要介入。
-是不是只有大公司能做， 小公司和初创公司就不适合搞自动化？这不是绝对的，还是要看公司的资
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/08/autotest/自动化目的以及答疑/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/deploy/docker/Docker(一)--安装/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/01/deploy/docker/Docker(一)--安装/" itemprop="url">Docker安装与调试</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:15+08:00">
-                2017-10-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          linux—centos下面安装docker的官方安装文档：由docker给的文档可以看出它也只是去配置了一个docker的yum源、然后就通过这个源来安装docker了；在这个文档下我们采用手工配置
-1https://docs.docker.com/engine/installation/linux/centos/
-必备条件1、LINUX centos 7以上可以通过1uname -r
-1234567lsb_release -a[root@localhost docker]# lsb_release -aLSB Version:	:core-4.1-amd64:core-4.1-noarchDistributor ID:	CentOSDescription:	CentOS Linux release 7.2.1511 (Core) Release:	7.2.1511Codename:	Core
-配置一个docker用的源：1、为docker 增加一个新的yum配置文件；1touch /etc/yum.repos.d/docker.repo
-2、docker.repo的内容如下1234
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/deploy/docker/Docker(一)--安装/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/language/java/JAVA基础篇/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/01/language/java/JAVA基础篇/" itemprop="url">JAVA基础知识</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:15+08:00">
-                2017-10-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Java/" itemprop="url" rel="index">
-                    <span itemprop="name">Java</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          ==符的使用1234Integer a = 1000,b=1000;  Integer c = 100,d=100;    System.out.println(a==b);  //falseSystem.out.println(c==d);  //true
-查看其中原理 首先公布下答案， 运行代码，我们会得到 false true。我们知道==比较的是两个对象的引用，这里的abcd都是新建出来的对象，按理说都应该输入false才对。这就是这道题的有趣之处，无论是面试题还是论坛讨论区，这道题的出场率都很高。原理其实很简单，我们去看下Integer.Java这个类就了然了。
-1234567891011121314public static Integer valueOf(int i) &#123;        return  i &gt;= 128 || i &lt; -128 ? new Integer(i) : SMALL_VALUES[i + 128];    &#125;    /**    * A cache of instances used by &#123;@link 
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/language/java/JAVA基础篇/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/language/java/异步调用/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/01/language/java/异步调用/" itemprop="url">异步调用线程</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:14+08:00">
-                2017-10-01
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          之前的同事给的一个例子
-123456789101112131415161718192021222324252627282930313233343536373839404142import java.util.concurrent.Callable;import java.util.concurrent.CompletableFuture;import java.util.function.Consumer;public class CallbackDemo &#123;    public static void main(String[] args) throws InterruptedException &#123;        // 异步调用运程方法，结束后数据写入数据库        asyncCall(new Callable&lt;String&gt;() &#123; // &lt;- 这个是请求方法            @Override            public String call() throws Exception &#123;         
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/language/java/异步调用/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1652,7 +1655,7 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">20</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
