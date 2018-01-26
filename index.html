@@ -262,6 +262,275 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/01/26/linux/Shell编程之变量/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/26/linux/Shell编程之变量/" itemprop="url">Shell编程之变量</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T15:53:31+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Bash变量与变量分类Bash是Linux中的标准Shell，因此经常称Bash为Shell。
+1. 变量命名规则
+变量名可以由字母、数字、下划线组成，但必须以字母与下划线开头；
+变量名的长度不能超过255个字符；
+变量名在有效范围必须唯一；
+在Bash中，变量的默认类型都字符串型；
+
+2. 变量按照存储类型分类默认类型是字符串型。
+
+字符串型，赋值时单双引号皆可；
+整形；
+12345678910#默认类型是字符串型。M=45+20echo $M  #整形计算A=15 B=30declare -i C=$A+$BD=$A+$Becho C=$C, D=$D  #输出为：C=45, D=15+30
+
+浮点型；
+
+
+123456789101112131415161718192021221、借助bc处理示例：计算5.01-4*2.0，得到的结果为-2.99$ c=$(echo &quot;5.01-4*2.0&quot;|bc)$ echo $c2、借助awk处理示例：计算7.01*5-4.01，得到的结果为31.05$ c=$(awk &apos;BEGIN&#123;print 7.01
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/26/linux/Shell编程之变量/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/01/26/linux/Shell编程之判断/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/01/26/linux/Shell编程之判断/" itemprop="url">Shell编程之判断</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T15:53:01+08:00">
+                2018-01-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          一、if的基本语法:1234567if [ command ];then   符合该条件执行的语句elif [ command ];then   符合该条件执行的语句else   符合该条件执行的语句fi
+二、文件/文件夹(目录)判断12345678910111213141516171819202122[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。[ -c FILE ] 如果 FILE 存在且是一个字特殊文件则为真。[ -d DIR ] 如果 FILE 存在且是一个目录则为真。[ -e FILE ] 如果 FILE 存在则为真。[ -f FILE ] 如果 FILE 存在且是一个普通文件则为真。[ -g FILE ] 如果 FILE 存在且已经设置了SGID则为真。[ -k FILE ] 如果 FILE 存在且已经设置了粘制位则为真。[ -p FILE ] 如果 FILE 存在且是一个名字管道(F如果O)则为真。[ -r FILE ] 如果 FILE 存在且是可读的则为真。[ -s FILE ] 如果 FILE 存在且大小不为0则为真。[ -t FD ] 如果文
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/01/26/linux/Shell编程之判断/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/01/24/linux/Linux中修改环境变量及生效方法/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1300,276 +1569,6 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-ENTRYPOINT/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-ENTRYPOINT/" itemprop="url">Dockerfile-ENTRYPOINT</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:34:55+08:00">
-                2017-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          本文介绍Dockerfile的 ENTRYPOINT指令的含义。
-先回顾下CMD指令的含义，CMD指令可以指定容器启动时要执行的命令，但它可以被docker run命令的参数覆盖掉。
-ENTRYPOINT 指令和CMD类似，它也可用户指定容器启动时要执行的命令，但如果dockerfile中也有CMD指令，CMD中的参数会被附加到ENTRYPOINT 指令的后面。 如果这时docker run命令带了参数，这个参数会覆盖掉CMD指令的参数，并也会附加到ENTRYPOINT 指令的后面。
-这样当容器启动后，会执行ENTRYPOINT 指令的参数部分。
-可以看出，相对来说ENTRYPOINT指令优先级更高。
-我们来看个例子，下面是Dockerfile的内容
-12345678#testFROM ubuntuMAINTAINER helloRUN echo hello1 &gt; test1.txtRUN echo hello2 &gt; /test2.txtEXPOSE 80ENTRYPOINT [&quot;echo&quot;]CMD [&quot;defaultvalue&quot;]
-
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/26/docker/Dockerfile-ENTRYPOINT/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-ADD2CPOY/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-ADD2CPOY/" itemprop="url">Dockerfile-ADD&CPOY</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:34:35+08:00">
-                2017-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          一、ADD指令ADD指令的功能是将主机构建环境（上下文）目录中的文件和目录、以及一个URL标记的文件 拷贝到镜像中。
-其格式是：1ADD  源路径  目标路径
-如：
-#test
-12345678FROM ubuntuMAINTAINER helloADD test1.txt test1.txtADD test1.txt test1.txt.bakADD test1.txt /mydir/ADD data1  data1ADD data2  data2ADD zip.tar /myzip
-有如下注意事项：
-1、如果源路径是个文件，且目标路径是以 / 结尾， 则docker会把目标路径当作一个目录，会把源文件拷贝到该目录下。
-如果目标路径不存在，则会自动创建目标路径。
-2、如果源路径是个文件，且目标路径是不是以 / 结尾，则docker会把目标路径当作一个文件。
-如果目标路径不存在，会以目标路径为名创建一个文件，内容同源文件；
-如果目标文件是个存在的文件，会用源文件覆盖它，当然只是内容覆盖，文件名还是目标文件名。
-如果目标文件实际是个存在的目录，则会源文件拷贝到该目录下。 注意，这种情况下
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/26/docker/Dockerfile-ADD2CPOY/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1624,7 +1623,7 @@ ENTRYPOINT 指令和CMD类似，它也可用户指定容器启动时要执行的
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-count">26</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

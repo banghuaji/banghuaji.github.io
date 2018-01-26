@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Docker," />
+  <meta name="keywords" content="LINUX," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="CMD我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如： 123docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程 。 除了这种方式外，我">
-<meta name="keywords" content="Docker">
+<meta name="description" content="一、if的基本语法:1234567if [ command ];then   符合该条件执行的语句elif [ command ];then   符合该条件执行的语句else   符合该条件执行的语句fi 二、文件/文件夹(目录)判断12345678910111213141516171819202122[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。[ -c FILE ] 如">
+<meta name="keywords" content="LINUX">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Dockerfile-CMD">
-<meta property="og:url" content="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/index.html">
+<meta property="og:title" content="Shell编程之判断">
+<meta property="og:url" content="https://banghuaji.github.io/2018/01/26/linux/Shell编程之判断/index.html">
 <meta property="og:site_name" content="JIMI的博客">
-<meta property="og:description" content="CMD我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如： 123docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程 。 除了这种方式外，我">
+<meta property="og:description" content="一、if的基本语法:1234567if [ command ];then   符合该条件执行的语句elif [ command ];then   符合该条件执行的语句else   符合该条件执行的语句fi 二、文件/文件夹(目录)判断12345678910111213141516171819202122[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。[ -c FILE ] 如">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-11-26T13:29:30.746Z">
+<meta property="og:updated_time" content="2018-01-26T07:52:45.117Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Dockerfile-CMD">
-<meta name="twitter:description" content="CMD我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如： 123docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程 。 除了这种方式外，我">
+<meta name="twitter:title" content="Shell编程之判断">
+<meta name="twitter:description" content="一、if的基本语法:1234567if [ command ];then   符合该条件执行的语句elif [ command ];then   符合该条件执行的语句else   符合该条件执行的语句fi 二、文件/文件夹(目录)判断12345678910111213141516171819202122[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。[ -c FILE ] 如">
 
 
 
@@ -120,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/"/>
+  <link rel="canonical" href="https://banghuaji.github.io/2018/01/26/linux/Shell编程之判断/"/>
 
 
 
 
 
-  <title>Dockerfile-CMD | JIMI的博客</title>
+  <title>Shell编程之判断 | JIMI的博客</title>
   
 
 
@@ -263,7 +263,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/01/26/linux/Shell编程之判断/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JIMI">
@@ -280,7 +280,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Dockerfile-CMD</h1>
+          <h1 class="post-title" itemprop="name headline">Shell编程之判断</h1>
         
 
         <div class="post-meta">
@@ -292,8 +292,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:11+08:00">
-                2017-11-26
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-26T15:53:01+08:00">
+                2018-01-26
               </time>
             
 
@@ -330,26 +330,12 @@
       
 
       
-        <h2 id="CMD"><a href="#CMD" class="headerlink" title="CMD"></a>CMD</h2><p>我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端</div><div class="line"></div><div class="line">docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程</div></pre></td></tr></table></figure>
-<p>。</p>
-<p>除了这种方式外，我们可以在dockerfile文件中通过CMD指令指定容器启动时要执行的命令。如：</p>
-<p>复制代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">#test</div><div class="line">FROM ubuntu</div><div class="line">MAINTAINER xxx</div><div class="line">RUN echo hello1 &gt; test1.txt</div><div class="line">RUN echo hello2 &gt; /test2.txt</div><div class="line">EXPOSE 80</div><div class="line">EXPOSE 81</div><div class="line">CMD [&quot;/bin/bash&quot;]</div></pre></td></tr></table></figure>
-<p>复制代码<br>上面dockerfile文件中最后一行CMD指令的参数是指定容器启动时要执行的命令，这里是bin/bash命令。</p>
-<p>1、用docker run命令创建并启动容器（myimage  是用前面dockerfile创建的镜像的名称）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -i -t myimage</div></pre></td></tr></table></figure>
-<p>上面命令是创建并启动容器，打开一个交互式shell。 而以前的写法是</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -i -t myimage  /bin/bash</div></pre></td></tr></table></figure>
-<p>这样就省去了在docker run中写命令了。</p>
-<p>2、即使dockerfile中有CMD指令，我们仍然可以在docker run命令中带上容器启动时执行的命令，这会覆盖dockerfile中的CMD指令指定的命令。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">docker run -i -t myimage /bin/ps</div></pre></td></tr></table></figure>
-<p>上面命令，因为/bin/ps覆盖了CMD指令，启动容器时会打印容器内的当前进程，但容器会立即停止，因为/bin/bash被覆盖了，无法打开交互式shell界面。</p>
-<p>3、需要注意的是，dockerfile中可以有多条cmd命令，但只是最后一条有效。</p>
-<p>4、CMD命令的参数格式，一般写成 字符串数组的方式，如上面的例子。如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CMD  [&quot;echo&quot;,&quot;hello world&quot;]</div></pre></td></tr></table></figure>
-<p>虽然也可写成CMD echo hello word 方式，但这样docker会在指定的命令前加  /bin/sh -c 执行，有时有可能会出问题。 所以推荐采用数据结构的方式来存放命令。</p>
-<h2 id="ENTRYPOINT"><a href="#ENTRYPOINT" class="headerlink" title="ENTRYPOINT"></a>ENTRYPOINT</h2>
+        <h2 id="一、if的基本语法"><a href="#一、if的基本语法" class="headerlink" title="一、if的基本语法:"></a>一、if的基本语法:</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">if [ command ];then</div><div class="line">   符合该条件执行的语句</div><div class="line">elif [ command ];then</div><div class="line">   符合该条件执行的语句</div><div class="line">else</div><div class="line">   符合该条件执行的语句</div><div class="line">fi</div></pre></td></tr></table></figure>
+<h2 id="二、文件-文件夹-目录-判断"><a href="#二、文件-文件夹-目录-判断" class="headerlink" title="二、文件/文件夹(目录)判断"></a>二、文件/文件夹(目录)判断</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">[ -b FILE ] 如果 FILE 存在且是一个块特殊文件则为真。</div><div class="line">[ -c FILE ] 如果 FILE 存在且是一个字特殊文件则为真。</div><div class="line">[ -d DIR ] 如果 FILE 存在且是一个目录则为真。</div><div class="line">[ -e FILE ] 如果 FILE 存在则为真。</div><div class="line">[ -f FILE ] 如果 FILE 存在且是一个普通文件则为真。</div><div class="line">[ -g FILE ] 如果 FILE 存在且已经设置了SGID则为真。</div><div class="line">[ -k FILE ] 如果 FILE 存在且已经设置了粘制位则为真。</div><div class="line">[ -p FILE ] 如果 FILE 存在且是一个名字管道(F如果O)则为真。</div><div class="line">[ -r FILE ] 如果 FILE 存在且是可读的则为真。</div><div class="line">[ -s FILE ] 如果 FILE 存在且大小不为0则为真。</div><div class="line">[ -t FD ] 如果文件描述符 FD 打开且指向一个终端则为真。</div><div class="line">[ -u FILE ] 如果 FILE 存在且设置了SUID (set user ID)则为真。</div><div class="line">[ -w FILE ] 如果 FILE存在且是可写的则为真。</div><div class="line">[ -x FILE ] 如果 FILE 存在且是可执行的则为真。</div><div class="line">[ -O FILE ] 如果 FILE 存在且属有效用户ID则为真。</div><div class="line">[ -G FILE ] 如果 FILE 存在且属有效用户组则为真。</div><div class="line">[ -L FILE ] 如果 FILE 存在且是一个符号连接则为真。</div><div class="line">[ -N FILE ] 如果 FILE 存在 and has been mod如果ied since it was last read则为真。</div><div class="line">[ -S FILE ] 如果 FILE 存在且是一个套接字则为真。</div><div class="line">[ FILE1 -nt FILE2 ] 如果 FILE1 has been changed more recently than FILE2, or 如果 FILE1 exists and FILE2 does not则为真。</div><div class="line">[ FILE1 -ot FILE2 ] 如果 FILE1 比 FILE2 要老, 或者 FILE2 存在且 FILE1 不存在则为真。</div><div class="line">[ FILE1 -ef FILE2 ] 如果 FILE1 和 FILE2 指向相同的设备和节点号则为真。</div></pre></td></tr></table></figure>
+<h2 id="三、字符串判断"><a href="#三、字符串判断" class="headerlink" title="三、字符串判断"></a>三、字符串判断</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">[ -z STRING ] 如果STRING的长度为零则为真 ，即判断是否为空，空即是真；</div><div class="line">[ -n STRING ] 如果STRING的长度非零则为真 ，即判断是否为非空，非空即是真；</div><div class="line">[ STRING1 = STRING2 ] 如果两个字符串相同则为真 ；</div><div class="line">[ STRING1 != STRING2 ] 如果字符串不相同则为真 ；</div><div class="line">[ STRING1 ]　 如果字符串不为空则为真,与-n类似</div></pre></td></tr></table></figure>
+<h2 id="四、数值判断"><a href="#四、数值判断" class="headerlink" title="四、数值判断"></a>四、数值判断</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">INT1 -eq INT2           INT1和INT2两数相等为真 ,=</div><div class="line">INT1 -ne INT2           INT1和INT2两数不等为真 ,&lt;&gt;</div><div class="line">INT1 -gt INT2            INT1大于INT1为真 ,&gt;</div><div class="line">INT1 -ge INT2           INT1大于等于INT2为真,&gt;=</div><div class="line">INT1 -lt INT2             INT1小于INT2为真 ,&lt;&lt;/div&gt;</div><div class="line">INT1 -le INT2             INT1小于等于INT2为真,&lt;=</div></pre></td></tr></table></figure>
+<h2 id="五、复杂逻辑判断"><a href="#五、复杂逻辑判断" class="headerlink" title="五、复杂逻辑判断"></a>五、复杂逻辑判断</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">-a 与</div><div class="line">-o 或</div><div class="line">! 非</div><div class="line"></div><div class="line">exp1: 如果a&gt;b且a</div><div class="line">if (( a &gt; b )) &amp;&amp; (( a &lt; c ))</div><div class="line">或者</div><div class="line">if [[ $a &gt; $b ]] &amp;&amp; [[ $a &lt; $c ]]</div><div class="line">或者</div><div class="line">if [ $a -gt $b -a $a -lt $c ]</div><div class="line"></div><div class="line">exp2:如果a&gt;b或a</div><div class="line">if (( a &gt; b )) || (( a &lt; c ))</div><div class="line">或者</div><div class="line">if [[ $a &gt; $b ]] || [[ $a &lt; $c ]]</div><div class="line">或者</div><div class="line">if [ $a -gt $b -o $a -lt $c ]</div><div class="line"> </div><div class="line">&quot;||&quot;和&quot;&amp;&amp;&quot;在SHELL里可以用，也就是第一个写成if [ a&gt;b &amp;&amp; a</div></pre></td></tr></table></figure>
+
       
     </div>
     
@@ -366,7 +352,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Docker/" rel="tag"># Docker</a>
+            <a href="/tags/LINUX/" rel="tag"># LINUX</a>
           
         </div>
       
@@ -379,8 +365,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/26/docker/Dockerfile-ENTRYPOINT/" rel="next" title="Dockerfile-ENTRYPOINT">
-                <i class="fa fa-chevron-left"></i> Dockerfile-ENTRYPOINT
+              <a href="/2018/01/24/linux/Linux中修改环境变量及生效方法/" rel="next" title="Linux中修改环境变量及生效方法">
+                <i class="fa fa-chevron-left"></i> Linux中修改环境变量及生效方法
               </a>
             
           </div>
@@ -389,8 +375,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/11/26/docker/Dockerfile--WORKDIR/" rel="prev" title="Dockerfile--WORKDIR">
-                Dockerfile--WORKDIR <i class="fa fa-chevron-right"></i>
+              <a href="/2018/01/26/linux/Shell编程之变量/" rel="prev" title="Shell编程之变量">
+                Shell编程之变量 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -549,7 +535,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#CMD"><span class="nav-number">1.</span> <span class="nav-text">CMD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ENTRYPOINT"><span class="nav-number">2.</span> <span class="nav-text">ENTRYPOINT</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一、if的基本语法"><span class="nav-number">1.</span> <span class="nav-text">一、if的基本语法:</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二、文件-文件夹-目录-判断"><span class="nav-number">2.</span> <span class="nav-text">二、文件/文件夹(目录)判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三、字符串判断"><span class="nav-number">3.</span> <span class="nav-text">三、字符串判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四、数值判断"><span class="nav-number">4.</span> <span class="nav-text">四、数值判断</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五、复杂逻辑判断"><span class="nav-number">5.</span> <span class="nav-text">五、复杂逻辑判断</span></a></li></ol></div>
             
 
           </div>
