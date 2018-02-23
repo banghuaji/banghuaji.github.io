@@ -262,6 +262,147 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/02/23/soft/jarjar解决jar冲突问题/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/02/23/soft/jarjar解决jar冲突问题/" itemprop="url">Dockerfile-CMD</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-23T17:54:40+08:00">
+                2018-02-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          一个项目里面同一个jar包一般不能有两个版本的 不然可能会出现jar包冲突的情况常见报错有这三个： 
+
+java.lang.ClassNotFoundException(找不到类) 
+java.lang.NoSuchMethodError(找不到具体方法) 
+java.lang.NoSuchFieldError(字段错误)
+java.lang.LinkageError(类错误 这个我没怎么见过)
+
+解决思路：
+删了旧版本的jar包，不过可能会导致一些旧代码不能用 （不推荐） 
+合并新旧两个jar包，这个有比较高的技术要求（不会） 
+拆开jar包，修改里面的package，然后在生成一个新的jar包（方便，简单，如果遇到需要就该jar包内容的情况，这个方法也适用）。
+
+解决方法：1、首先下载jarjar.jar ：
+12官网：https://code.google.com/p/jarjar/（要翻墙）附件：http://download.csdn.net/detail/qq_22778717/9689007
+ 2、随便放一个地方（我放到E盘的jarjar文件夹下）
+3、打开cmd，cd到
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/02/23/soft/jarjar解决jar冲突问题/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/01/26/linux/Shell编程之变量/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1436,139 +1577,6 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-CMD/" itemprop="url">Dockerfile-CMD</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:11+08:00">
-                2017-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          CMD我们知道，通过docker run 创建并启动一个容器时，命令的最后可以指定容器启动后在容器内立即要执行的指令，如：
-123docker run -i -t ubunu /bin/bash   //表示容器启动时立即在容器内打开一个shell终端docker run ubuntu /bin/ps    //表示容器启动后立即运行 /bin/ps命令，显示容器的当前进程
-。
-除了这种方式外，我们可以在dockerfile文件中通过CMD指令指定容器启动时要执行的命令。如：
-复制代码
-12345678#testFROM ubuntuMAINTAINER xxxRUN echo hello1 &gt; test1.txtRUN echo hello2 &gt; /test2.txtEXPOSE 80EXPOSE 81CMD [&quot;/bin/bash&quot;]
-复制代码上面dockerfile文件中最后一行CMD指令的参数是指定容器启动时要执行的命令，这里是bin/bash命令。
-1、用docker run命令创建并启动容器（myimage  是用前面dockerfile创建
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/26/docker/Dockerfile-CMD/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1623,7 +1631,7 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">27</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1645,7 +1653,7 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
