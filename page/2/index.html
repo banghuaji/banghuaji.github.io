@@ -262,6 +262,139 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile--WORKDIR/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile--WORKDIR/" itemprop="url">Dockerfile--WORKDIR</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:28+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          Dockerfile中的WORKDIR指令用于指定容器的一个目录， 容器启动时执行的命令会在该目录下执行。
+相当于设置容器的工作目录了。我们来看一个dockerfile文件
+1234567#testFROM ubuntuMAINTAINER helloRUN mkdir /mydirRUN echo hello world &gt; /mydir/test.txtWORKDIR /mydirCMD [&quot;more&quot; ,&quot;test.txt&quot;]
+假设根据该dockerfile构建的镜像名为 myimage
+1231、运行 docker run myimage  输出 hello world2、运行 docker run myimage more test.txt  和上面输出一致
+可以看出，more的参数是 test.txt，但没有指定路径，却能成功，说明当前路径就是上面WORKDIR指令设置的。
+如果我们在上面的dockerfile中把WORKDIR指令去掉，创建的容器运行会报文件不存在错误。
+3、可以在 docker run命令中用 -w参数覆盖掉
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile--WORKDIR/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-CMD/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1457,142 +1590,6 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/08/autotest/自动化目的以及答疑/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/08/autotest/自动化目的以及答疑/" itemprop="url">自动化目的以及答疑</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-08T22:20:13+08:00">
-                2017-10-08
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          自动化的目的
-把测试从枯燥的重复劳动中解放出来，例如：回归测试等；
-协助手工测试完成很难模拟或无法模拟的的工作，例如：篡改服务返回的数据验证前端对各种数据场景的处理，弱网模拟、特殊协议数据包解析验证等；
-尽早发现Bug，例如：数据层的存储过程、Package批量调用验证、接口自动化等偏底层的问题；
-协助定位问题，现在的自动化提出了更高的要求，例如：接口层发现问题了，可以通过添加的traceID定位到日志错误或错误代码行，app运行中异常可捕获错误日志等；
-线上监控报警，现在的自动化不仅限于线下，线上的也已覆盖，测试和运维的工作可能存在交集，我们不能把质量问题寄托于他人，一旦发现问题，立即报警通知到人，让损失到最小。
-提高工作效率，这个面有点广，例如，测试环境的自动化编译、打包、部署、持续集成甚至持续交付等。
-
-关于自动化介入的若干问题
-是否要考虑成本？ 当然要考虑，我们总会遇到在成本和质量之间找平衡点，可能一些特殊的行业，特殊的项目，质量的权重更高点，如果引入自动化能提高质量，该介入的还是要介入。
-是不是只有大公司能做， 小公司和初创公司就不适合搞自动化？这不是绝对的，还是要看公司的资
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/08/autotest/自动化目的以及答疑/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1647,7 +1644,7 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">27</span>
+                  <span class="site-state-item-count">28</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
