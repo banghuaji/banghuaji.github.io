@@ -262,6 +262,137 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/04/20/docker/Dockerfile-CMD与ENTRYPOINT/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/04/20/docker/Dockerfile-CMD与ENTRYPOINT/" itemprop="url">Dockerfile--CMD&&ENTRYPOINT</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T22:27:31+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          今天在自己的机器上测试了一下ENTRYPOINT与CMD的使用方法
+相同点：
+均支持两种运行的方式，取于官方文档，
+12ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (exec form, preferred)ENTRYPOINT command param1 param2 (shell form)
+123CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (exec form, this is the preferred form)CMD [&quot;param1&quot;,&quot;param2&quot;] (as default parameters to ENTRYPOINT)CMD command param1 param2 (shell form)
+不同点：- CMD 的命令可以被docker run覆盖ENTRYPOINT则不行，且ENTRYPOINT可接收CMD的参数，这时EN
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/04/20/docker/Dockerfile-CMD与ENTRYPOINT/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/02/24/language/java/Java的SystemInfoUtil/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1441,138 +1572,6 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-USER/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-USER/" itemprop="url">Dockerfile-USER 介绍</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:47+08:00">
-                2017-11-26
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          USER指令用于指定容器执行程序的用户身份，默认是 root用户。
-在docker run 中可以通过 -u 选项来覆盖USER指令的设置。
-举例：1docker run -i -t -u mysql newmysqldb /bin/bash
-显示的shell提示符是：
-1mysql@57cd57edba38:/$
-注意：docker容器中的root用户密码是随机分配的。
-
-          
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/26/docker/Dockerfile-USER/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1627,7 +1626,7 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

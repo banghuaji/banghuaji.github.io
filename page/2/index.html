@@ -262,6 +262,138 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile-USER/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/11/26/docker/Dockerfile-USER/" itemprop="url">Dockerfile-USER 介绍</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-26T21:35:47+08:00">
+                2017-11-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          USER指令用于指定容器执行程序的用户身份，默认是 root用户。
+在docker run 中可以通过 -u 选项来覆盖USER指令的设置。
+举例：1docker run -i -t -u mysql newmysqldb /bin/bash
+显示的shell提示符是：
+1mysql@57cd57edba38:/$
+注意：docker容器中的root用户密码是随机分配的。
+
+          
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/11/26/docker/Dockerfile-USER/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/26/docker/Dockerfile--WORKDIR/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1463,133 +1595,6 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/29/language/pipeline/pipeline的基础语法/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/10/29/language/pipeline/pipeline的基础语法/" itemprop="url">pipeline的基础语法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-29T18:58:35+08:00">
-                2017-10-29
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          命令的执行步骤123456789101112131415Jenkinsfile (Declarative Pipeline)pipeline &#123;    agent any    stages &#123;        stage(&apos;Build&apos;) &#123;            steps &#123;                sh &apos;echo &quot;Hello World&quot;&apos;                sh &apos;&apos;&apos;                    echo &quot;Multiline shell steps works too&quot;                    ls -lah                &apos;&apos;&apos;            &#125;        &#125;    &#125;&#125;
-重试与超时1234567891011121314151617Jenkinsfile (Declarative P
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/10/29/language/pipeline/pipeline的基础语法/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1644,7 +1649,7 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
