@@ -262,6 +262,135 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/" itemprop="url">DOCKER中JAVA应用自动设置堆内存</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T15:09:35+08:00">
+                2017-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          JAVA应用中我们为了让应用更好的工作，我们经常的要设置堆内存等的操作。
+但是我们经常的会指定DOCKER的最大内存值，怎样让我们设置了DOCKER的内存值来指定TOMCAT里面需要的值那，下面是从网上找到的解决的方案：
+GITHUB的地址：https://github.com/denverdino/docker-tomcat-autoheap
+12345678910111213#!/bin/bashlimit_in_bytes=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)# If not default limit_in_bytes in cgroupif [ &quot;$limit_in_bytes&quot; -ne &quot;9223372036854771712&quot; ]then    limit_in_megabytes=$(expr $limit_in_bytes \/ 1048576)    heap_size=$(expr $limit_in_megabytes - $RESERVED_MEGABYTE
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/12/09/linux/查找大文件或目录总结/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1453,144 +1582,6 @@ Elastic Compute Service, 简称ECS 好多人理解云服务器和VPS一样，更
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/11/02/soft/LINUX实现免密钥登陆/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/02/soft/LINUX实现免密钥登陆/" itemprop="url">LINUX实现免密钥登陆</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-02T22:11:17+08:00">
-                2017-11-02
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          github 或者gitlab 设置添加SSH, 避免每次提交重复输入用户名克隆项目二种方式：
-使用https url克隆,   复制https url 然后到 git clone https-url
-
-使用 SSH url克隆却需要在克隆之前先配置和添加好 SSH key, 你必须是这个项目的拥有者。否则你是无法添加 SSH key 的。
-
-
-
-https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而不管是谁的；而后者则是你必须是你要克隆的项目的拥有者或管理员，且需要先添加 SSH key ，否则无法克隆。
-2、https url 在push的时候是需要验证用户名和密码的；而 SSH 在push的时候，是不需要输入用户名的，如果配置SSH key的时候设置了密码，则需要输入密码的，否则直接是不需要输入密码的。
-在 github 上添加 SSH key 的步骤：1、首先需要检查你电脑是否已经有 SSH key 
-运行 git Bash 客户端，输入如下代码：
-12$ cd ~/.ssh$ ls
-这两个命令就是检查是否已经存在 id_rsa.pub 或 id_dsa.
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/02/soft/LINUX实现免密钥登陆/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1645,7 +1636,7 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1667,7 +1658,7 @@ https 和 SSH 的区别：1、前者可以随意克隆github上的项目，而�
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>

@@ -262,6 +262,136 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/07/22/linux/文件与文件夹创建的默认权限/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/07/22/linux/文件与文件夹创建的默认权限/" itemprop="url">linux文件权限</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-07-22T21:27:26+08:00">
+                2018-07-22
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+          问题发现：问题：容器中部署Java应用，将日志文件映射到宿主机，创建的目录权限为：以及文件的权限为：如下
+1234567root@192-168-104-194:/opt/test/activity# lltotal 72drwxr-xr-x 3 root root  4096 7月  20 22:03 ./drwxr-xr-x 4 root root  4096 7月  20 22:02 ../-rw-r----- 1 root root     0 7月  20 22:03 cocacola_regest.logdrwxr-xr-x 2 root root  4096 7月  20 22:02 console/-rw-r----- 1 root root     0 7月  20 22:03 database-stat.log
+这是我们发现文件的权限不对，少了一个任何用户可读的权限，踏上寻找问题的原因：
+在linux中，一位用户在创建文件和目录时，对其具有的权限都是一样的，如需更改，需要chmod命令做相应的更改。为什么？其实是权限掩码起作用了。    
+权限掩码的作用就是规范初创
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/07/22/linux/文件与文件夹创建的默认权限/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/06/20/docker/虚拟机与Docker有何不同/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1447,135 +1577,6 @@ JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap�
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="JIMI">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="JIMI的博客">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/" itemprop="url">DOCKER中JAVA应用自动设置堆内存</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-24T15:09:35+08:00">
-                2017-12-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-          JAVA应用中我们为了让应用更好的工作，我们经常的要设置堆内存等的操作。
-但是我们经常的会指定DOCKER的最大内存值，怎样让我们设置了DOCKER的内存值来指定TOMCAT里面需要的值那，下面是从网上找到的解决的方案：
-GITHUB的地址：https://github.com/denverdino/docker-tomcat-autoheap
-12345678910111213#!/bin/bashlimit_in_bytes=$(cat /sys/fs/cgroup/memory/memory.limit_in_bytes)# If not default limit_in_bytes in cgroupif [ &quot;$limit_in_bytes&quot; -ne &quot;9223372036854771712&quot; ]then    limit_in_megabytes=$(expr $limit_in_bytes \/ 1048576)    heap_size=$(expr $limit_in_megabytes - $RESERVED_MEGABYTE
-          ...
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/12/24/docker/DOCKER中JAVA应用自动设置堆内存/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
@@ -1630,7 +1631,7 @@ GITHUB的地址：https://github.com/denverdino/docker-tomcat-autoheap
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1652,7 +1653,7 @@ GITHUB的地址：https://github.com/denverdino/docker-tomcat-autoheap
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">16</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
