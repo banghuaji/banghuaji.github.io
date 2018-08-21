@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/QQ截图20171015140807.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="分享内容： spinnaker介绍与安装踩过的坑。 spinnaker在kubernetes的持续部署。 线上容器服务的选择与多区容灾。  spinnaker介绍Spinnaker 是 Netflix 的开源项目，是一个持续交付平台，它定位于将产品快速且持续的部署到多种云平台上。Spinnaker 有两个核心的功能集群管理和部署管理。Spinnaker 通过将发布和各个云平台解耦，来将部署流程流水">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JIMI的博客">
+<meta property="og:url" content="https://banghuaji.github.io/2018/08/21/docker/有货在Kubernetes容器环境的CD实践/index.html">
+<meta property="og:site_name" content="JIMI的博客">
+<meta property="og:description" content="分享内容： spinnaker介绍与安装踩过的坑。 spinnaker在kubernetes的持续部署。 线上容器服务的选择与多区容灾。  spinnaker介绍Spinnaker 是 Netflix 的开源项目，是一个持续交付平台，它定位于将产品快速且持续的部署到多种云平台上。Spinnaker 有两个核心的功能集群管理和部署管理。Spinnaker 通过将发布和各个云平台解耦，来将部署流程流水">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/clusters.png">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725135337.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725131609.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725162426.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726131901.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726145604.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/pa20180726151803.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726151946.png">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/jenk20180726135444.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726152943.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726153748.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154045.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154242.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154650.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726155232.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726155357.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726160611.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726160505.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/QQ截图20180726161313.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726162041.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726161643.png">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726162234.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726163230.png">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190604.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190816.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190833.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812192637.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812192047.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726183826.jpg">
+<meta property="og:image" content="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20189292.jpg">
+<meta property="og:updated_time" content="2018-08-21T07:00:25.929Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JIMI的博客">
+<meta name="twitter:description" content="分享内容： spinnaker介绍与安装踩过的坑。 spinnaker在kubernetes的持续部署。 线上容器服务的选择与多区容灾。  spinnaker介绍Spinnaker 是 Netflix 的开源项目，是一个持续交付平台，它定位于将产品快速且持续的部署到多种云平台上。Spinnaker 有两个核心的功能集群管理和部署管理。Spinnaker 通过将发布和各个云平台解耦，来将部署流程流水">
+<meta name="twitter:image" content="http://owvvecxcp.bkt.clouddn.com/2018/08/12/clusters.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://banghuaji.github.io/2018/08/21/docker/有货在Kubernetes容器环境的CD实践/"/>
+
+
+
+
+
+  <title> | JIMI的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?06d8ad0ca4fc329dab889818aba53f39";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JIMI的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">主孰有道？将孰有能？天地孰得？法令孰行？兵众孰强？士卒孰练？赏罚孰明？吾以此知胜负矣。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-customizeds">
+          <a href="/customizeds/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            联系方式
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/08/21/docker/有货在Kubernetes容器环境的CD实践/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline"></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T17:10:06+08:00">
+                2018-08-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="分享内容："><a href="#分享内容：" class="headerlink" title="分享内容："></a>分享内容：</h2><ol>
+<li>spinnaker介绍与安装踩过的坑。</li>
+<li>spinnaker在kubernetes的持续部署。</li>
+<li>线上容器服务的选择与多区容灾。</li>
+</ol>
+<h2 id="spinnaker介绍"><a href="#spinnaker介绍" class="headerlink" title="spinnaker介绍"></a>spinnaker介绍</h2><p><a href="https://www.spinnaker.io" target="_blank" rel="external">Spinnaker</a> 是 Netflix 的开源项目，是一个持续交付平台，它定位于将产品快速且持续的部署到多种云平台上。Spinnaker 有两个核心的功能集群管理和部署管理。Spinnaker 通过将发布和各个云平台解耦，来将部署流程流水线化，从而降低平台迁移或多云品台部署应用的复杂度，它本身内部支持 Google、AWS EC2、Microsoft Azure、Kubernetes和 OpenStack 等云平台，并且它可以无缝集成其他持续集成（CI）流程，如 git、Jenkins、Travis CI、Docker registry、cron 调度器等。</p>
+<h3 id="Application-management"><a href="#Application-management" class="headerlink" title="Application management"></a>Application management</h3><p>spinnaker主要用于展示与管理你的云端资源.<br>先要了解一些关键的概念：Applications, clusters, and server groups,<br>通过Load balancers and firewalls 将服务展示给用户。官方给的结构如下：<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/clusters.png" alt="image"></p>
+<h4 id="Application"><a href="#Application" class="headerlink" title="Application"></a>Application</h4><p>定义了集群中一组的cluster的集合，也包括了firewalls 与 load balancers，存储了服务所有的部署相关的的信息。</p>
+<h4 id="Server-Group"><a href="#Server-Group" class="headerlink" title="Server Group"></a>Server Group</h4><p>定义了一些基础的源比如(VM image, Docker image),以及一些基础的配置信息，一旦部署后，在容器中对应Kubernetes pods的集合。</p>
+<h4 id="Cluster"><a href="#Cluster" class="headerlink" title="Cluster"></a>Cluster</h4><p>Server Groups的有关联的集合。（Cluster中可以按照dev，prod的去创建不同的服务组），也可以理解为对于一个应用存在多个分支的情况。</p>
+<h4 id="Load-Balancer"><a href="#Load-Balancer" class="headerlink" title="Load Balancer"></a>Load Balancer</h4><p>他在实例之间做负载均衡流量。您还可以为负载均衡器启用健康检查，灵活地定义健康标准并指定健康检查端点，有点类似于kubernetes中ingress。</p>
+<h4 id="Firewall"><a href="#Firewall" class="headerlink" title="Firewall"></a>Firewall</h4><p>防火墙定义了网络流量访问，定义了一些访问的规则，如安全组等等。</p>
+<h4 id="页面预览"><a href="#页面预览" class="headerlink" title="页面预览"></a>页面预览</h4><p>页面展示如下，还是比较精简的，可以在它的操作页面上看到项目以及应用的详细信息，还可以进行集群的伸缩，回滚，修改以及删除的操作。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725135337.jpg" alt="image"></p>
+<h3 id="部署管理"><a href="#部署管理" class="headerlink" title="部署管理"></a>部署管理</h3><p>上图中，infrastructure左侧为PIPELINE的设计：主要讲两块内容：pipeline的创建以及基础功能，与部署的策略。</p>
+<h4 id="Pipeline"><a href="#Pipeline" class="headerlink" title="Pipeline"></a>Pipeline</h4><ul>
+<li>较强的 Pipeline 的能力：它的 Pipeline 可以复杂到无以复加，它还有很强的表达式功能(后续的操作中前面的参数均通过表达式获取)。</li>
+<li>触发的方式：定时任务，人工触发，jenkinsjob，docker images，或者其他的pipeline的步骤。</li>
+<li>通知方式：email, SMS or HipChat.</li>
+<li>将所有的操作都融合到pipeline中，比如回滚、金丝雀分析、关联CI等等。</li>
+</ul>
+<h4 id="部署策略"><a href="#部署策略" class="headerlink" title="部署策略"></a>部署策略</h4><p>由于我们用的是Kubernetes Provider V2 (Manifest Based) 方式：可修改yaml中：spec.strategy.type。</p>
+<ul>
+<li>Recreate，先将所有旧的Pod停止，然后再启动新的pod对应其中的第一种方式。</li>
+<li>RollingUpdate，即滚动升级，对应下图中第二种方式</li>
+<li>canary下面会单独的介绍其中的使用。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725131609.jpg" alt="image"></li>
+</ul>
+<h2 id="spinnaker安装踩过的坑"><a href="#spinnaker安装踩过的坑" class="headerlink" title="spinnaker安装踩过的坑"></a>spinnaker安装踩过的坑</h2><p>很多人都是感觉这个很难安装，其实主要的原因还是墙的问题，只要把这个解决了就会方便很多，官方的文档写的很详细，而且spinnaker的社区也非常的活跃，有问题均可以在上面进行提问。</p>
+<h3 id="安装提供的方式："><a href="#安装提供的方式：" class="headerlink" title="安装提供的方式："></a>安装提供的方式：</h3><ul>
+<li>Halyard安装方式(官方推荐安装方式)<blockquote>
+<p>我采用<a href="https://www.spinnaker.io/setup/install/" target="_blank" rel="external">Halyard安装</a>方式，因为后期我们会集成很多其他的插件，类似于gitlab，ldap，kayenta，甚至多个jenkins，kubernetes服务等等，可配置性较强。</p>
+</blockquote>
+</li>
+<li>Helm搭建Spinnaker平台</li>
+<li>Development版本安装<blockquote>
+<p>helm方式若是需要自定义一些个性化的内容会比较复杂，完全依赖于原始镜像，而Development需要对spinnaker非常的熟悉，以及每个版本之间的对应关系均要了解。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="Halyard方式安装注意点："><a href="#Halyard方式安装注意点：" class="headerlink" title="Halyard方式安装注意点："></a>Halyard方式安装注意点：</h3><h4 id="Halyard代理的配置"><a href="#Halyard代理的配置" class="headerlink" title="Halyard代理的配置"></a>Halyard代理的配置</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">vim /opt/halyard/bin/halyard</div><div class="line">DEFAULT_JVM_OPTS=&apos;-Dhttp.proxyHost=192.168.102.10 -Dhttps.proxyPort=3128&apos;</div></pre></td></tr></table></figure>
+<h4 id="部署机器选择"><a href="#部署机器选择" class="headerlink" title="部署机器选择"></a>部署机器选择</h4><p>由于spinnaker涉及的应用较多，下面会单独的介绍，需要消耗比较大的内存，官方推荐的配置如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">18 GB of RAM</div><div class="line">A 4 core CPU</div><div class="line">Ubuntu 14.04, 16.04 or 18.04</div></pre></td></tr></table></figure></p>
+<h4 id="spinnaker安装步骤"><a href="#spinnaker安装步骤" class="headerlink" title="spinnaker安装步骤"></a>spinnaker安装步骤</h4><ol>
+<li>Halyard下载以及安装</li>
+<li>选择云提供者：我选择的是Kubernetes Provider V2 (Manifest Based)，需要在部署spinnaker的机器上完成K8S集群的认证，以及权限管理。</li>
+<li>部署的时候选择安装环境：我选择的是Debian包的方式。</li>
+<li>选择存储：官方推荐使用minio，我选择的是minio的方式。</li>
+<li>选择安装的版本：我当时最新的是V1.8.0</li>
+<li>接下来进行部署工作，初次部署时间较长，会连接代理下载对应的包。</li>
+<li>全部下载与完成后，查看对应的日志，即可使用localhost:9000访问即可。</li>
+</ol>
+<h3 id="涉及的组件"><a href="#涉及的组件" class="headerlink" title="涉及的组件"></a>涉及的组件</h3><p>下图是spinnaker的各个组件之间的关系。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/25/20180725162426.jpg" alt="image"></p>
+<ul>
+<li>Deck：面向用户 UI 界面组件，提供直观简介的操作界面，可视化操作发布部署流程。</li>
+<li>API： 面向调用 API 组件，我们可以不使用提供的 UI，直接调用 API 操作，由它后台帮我们执行发布等任务。</li>
+<li>Gate：是 API 的网关组件，可以理解为代理，所有请求由其代理转发。</li>
+<li>Rosco：是构建 beta 镜像的组件，需要配置 Packer 组件使用。</li>
+<li>Orca：是核心流程引擎组件，用来管理流程。</li>
+<li>Igor：是用来集成其他 CI 系统组件，如 Jenkins 等一个组件。</li>
+<li>Echo：是通知系统组件，发送邮件等信息。</li>
+<li>Front50：是存储管理组件，需要配置 Redis、Cassandra 等组件使用。</li>
+<li>Cloud driver 是它用来适配不同的云平台的组件，比如 Kubernetes，Google、AWS EC2、Microsoft Azure 等。</li>
+<li>Fiat 是鉴权的组件，配置权限管理，支持 OAuth、SAML、LDAP、GitHub teams、Azure groups、 Google Groups 等。</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>组件</th>
+<th>端口</th>
+<th>依赖组件</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Clouddriver</td>
+<td>7002</td>
+<td>Minio</td>
+<td></td>
+</tr>
+<tr>
+<td>Fiat</td>
+<td>7003</td>
+<td>Jenkins</td>
+<td></td>
+</tr>
+<tr>
+<td>Front50</td>
+<td>8080</td>
+<td>Ldap</td>
+<td></td>
+</tr>
+<tr>
+<td>Orca</td>
+<td>8083</td>
+<td>github</td>
+<td></td>
+</tr>
+<tr>
+<td>Gate</td>
+<td>8084        </td>
+</tr>
+<tr>
+<td>Rosco</td>
+<td>8087        </td>
+</tr>
+<tr>
+<td>Igor</td>
+<td>8088        </td>
+</tr>
+<tr>
+<td>Echo</td>
+<td>8089        </td>
+</tr>
+<tr>
+<td>Deck</td>
+<td>9000</td>
+</tr>
+<tr>
+<td>kayenta</td>
+<td>8090</td>
+</tr>
+</tbody>
+</table>
+<h2 id="spinnaker在kubernetes的持续部署"><a href="#spinnaker在kubernetes的持续部署" class="headerlink" title="spinnaker在kubernetes的持续部署"></a>spinnaker在kubernetes的持续部署</h2><h3 id="PIPELINE部署示例"><a href="#PIPELINE部署示例" class="headerlink" title="PIPELINE部署示例"></a>PIPELINE部署示例</h3><p>如下pipeline设计就是开发将版本合到某一个分支后，通过jenkins镜像构建，发布测试环境，进而自动化以及人工验证，在由人工判断是否需要发布到线上以及回滚，若是选择发布到线上则发布到prod环境，从而进行prod自动化的CI。若是选择回滚则回滚到上个版本，从而进行dev自动化的CI。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726131901.jpg" alt="image"></p>
+<h4 id="Stage-configuration"><a href="#Stage-configuration" class="headerlink" title="Stage-configuration"></a>Stage-configuration</h4><p>设置触发的方式，定义全局变量，执行报告的通知方式，是pipeline的起点</p>
+<h5 id="Automated-Triggers"><a href="#Automated-Triggers" class="headerlink" title="Automated Triggers"></a>Automated Triggers</h5><p>其中支持多种触发的方式：定时任务corn，git，jenkins，docker Registry，travis,pipeline,webhook等触发方式，从而能够满足我们自动回调的功能。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726145604.jpg" alt="image"></p>
+<h5 id="Parameters"><a href="#Parameters" class="headerlink" title="Parameters"></a>Parameters</h5><p>此处定义的全局变量会在整个PIPELINE中使用${ parameters[‘branch’]}得到,这样大大的简化了我们设计pipeline的通用性。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/pa20180726151803.jpg" alt="image"></p>
+<h5 id="Notifications"><a href="#Notifications" class="headerlink" title="Notifications"></a>Notifications</h5><p>这里通知支持：SMS，EMAIL，HIPCHAT等等的方式。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726151946.png" alt="image"><br>我们使用了邮件通知的功能：需要在echo的配置文件中加入发件邮箱的基本信息。</p>
+<h4 id="Stage-jenkins"><a href="#Stage-jenkins" class="headerlink" title="Stage-jenkins"></a>Stage-jenkins</h4><p>调用jenkins来执行相关的任务，其中jenkins的服务信息存在放hal的配置文件中（如下展示），spinnaker可自动以同步jenkins的job以及参数等等的信息，运行后能够看到对应的JOB ID以及状态：<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/jenk20180726135444.jpg" alt="image"></p>
+<p>运行完成后展示如下，我们可以查看相关的build的信息，以及此stage执行的相关信息，点击build可以跳到对应的jenkins的job查看相关的任务信息。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726152943.jpg" alt="image"></p>
+<h4 id="Stage-deploy"><a href="#Stage-deploy" class="headerlink" title="Stage-deploy"></a>Stage-deploy</h4><p>由于我们配置spinnaker的时候采用的是Kubernetes Provider V2方式，我们的发布均采用yaml的方式来实现，可以将文件存放在github中或者直接在页面上进行配置，同时yaml中文件支持了很多的参数化，这样大大的方便了我们日常的使用。</p>
+<h5 id="halyard关联KUBERNETES的配置信息"><a href="#halyard关联KUBERNETES的配置信息" class="headerlink" title="halyard关联KUBERNETES的配置信息"></a>halyard关联KUBERNETES的配置信息</h5><p>由于我们采用的云服务是KUBERNETES，配置的时候需要将部署spinnaker的机器对KUBERNETES集群做认证。</p>
+<h5 id="spinnaker发布信息展示："><a href="#spinnaker发布信息展示：" class="headerlink" title="spinnaker发布信息展示："></a>spinnaker发布信息展示：</h5><p>此处Manifest Source支持参数化形式，类似于我们写入的yaml部署文件，但是这里支持参数化的方式。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726153748.jpg" alt="image"><br>具体的配置项如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div></pre></td><td class="code"><pre><div class="line">- apiVersion: extensions/v1beta1</div><div class="line">  kind: Deployment</div><div class="line">  metadata:</div><div class="line">    name: &apos;$&#123; parameters.deployName &#125;-deployment&apos;</div><div class="line">    namespace: dev</div><div class="line">  spec:</div><div class="line">    replicas: 2</div><div class="line">    template:</div><div class="line">      metadata:</div><div class="line">        labels:</div><div class="line">          name: &apos;$&#123; parameters.deployName &#125;-deployment&apos;</div><div class="line">      spec:</div><div class="line">        containers:</div><div class="line">          - image: &gt;-</div><div class="line">              192.168.105.2:5000/$&#123; parameters.imageSource &#125;/$&#123;</div><div class="line">              parameters.deployName &#125;:$&#123; parameters.imageversion &#125;</div><div class="line">            name: &apos;$&#123; parameters.deployName &#125;-deployment&apos;</div><div class="line">            ports:</div><div class="line">              - containerPort: 8080</div><div class="line">        imagePullSecrets:</div><div class="line">          - name: registrypullsecret</div><div class="line">- apiVersion: v1</div><div class="line">  kind: Service</div><div class="line">  metadata:</div><div class="line">    name: &apos;$&#123; parameters.deployName &#125;-service&apos;</div><div class="line">    namespace: dev</div><div class="line">  spec:</div><div class="line">    ports:</div><div class="line">      - port: 8080</div><div class="line">        targetPort: 8080</div><div class="line">    selector:</div><div class="line">      name: &apos;$&#123; parameters.deployName &#125;-deployment&apos;</div><div class="line">- apiVersion: extensions/v1beta1</div><div class="line">  kind: Ingress</div><div class="line">  metadata:</div><div class="line">    name: &apos;$&#123; parameters.deployName &#125;-ingress&apos;</div><div class="line">    namespace: dev</div><div class="line">  spec:</div><div class="line">    rules:</div><div class="line">      - host: &apos;$&#123; parameters.deployName &#125;-dev.ingress.dev.yohocorp.com&apos;</div><div class="line">        http:</div><div class="line">          paths:</div><div class="line">            - backend:</div><div class="line">                serviceName: &apos;$&#123; parameters.deployName &#125;-service&apos;</div><div class="line">                servicePort: 8080</div><div class="line">              path: /</div></pre></td></tr></table></figure></p>
+<h5 id="运行结果的示例："><a href="#运行结果的示例：" class="headerlink" title="运行结果的示例："></a>运行结果的示例：</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154045.jpg" alt="image"></p>
+<h4 id="Stage-Webhook"><a href="#Stage-Webhook" class="headerlink" title="Stage-Webhook"></a>Stage-Webhook</h4><p>webhook我们可以做一些简单的环境验证以及去调用其他的服务的功能，它自身也提供了一些结果的验证功能，支持多种请求的方式。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154242.jpg" alt="image"></p>
+<h5 id="运行结果的示例：-1"><a href="#运行结果的示例：-1" class="headerlink" title="运行结果的示例："></a>运行结果的示例：</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726154650.jpg" alt="image"></p>
+<h4 id="Stage-Manual-Judgment"><a href="#Stage-Manual-Judgment" class="headerlink" title="Stage-Manual Judgment"></a>Stage-Manual Judgment</h4><h5 id="spinnaker配置信息"><a href="#spinnaker配置信息" class="headerlink" title="spinnaker配置信息"></a>spinnaker配置信息</h5><p>用于人工的逻辑判断，增加pipeline的控制性(比如发布到线上需要测试人员认证以及领导审批)，内容支持多种语法表达的方式。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726155232.jpg" alt="image"></p>
+<h5 id="运行结果的示例"><a href="#运行结果的示例" class="headerlink" title="运行结果的示例"></a>运行结果的示例</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726155357.jpg" alt="image"></p>
+<h4 id="Stage-Check-Preconditions"><a href="#Stage-Check-Preconditions" class="headerlink" title="Stage-Check Preconditions"></a>Stage-Check Preconditions</h4><p>上边 Manual Judgment Stage 配置了两个 Judgment Inputs 判断项，接下来我们建两个 Check Preconditions Stage 来分别对这两种判断项做条件检测，条件检测成功，则执行对应的后续 Stage 流程。比如上面的操作，若是选择发布到prod，则执行发布到线上的分支，若是选择执行回滚的操作则进行回滚相关的分支。</p>
+<h5 id="spinnaker配置信息-1"><a href="#spinnaker配置信息-1" class="headerlink" title="spinnaker配置信息"></a>spinnaker配置信息</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726160611.jpg" alt="image"></p>
+<h5 id="运行结果的示例-1"><a href="#运行结果的示例-1" class="headerlink" title="运行结果的示例"></a>运行结果的示例</h5><p>如上图中我选择了rollback<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726160505.jpg" alt="image"><br>则prod分支判断为失败，会阻塞后面的stage运行。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/QQ截图20180726161313.jpg" alt="image"></p>
+<h4 id="Stage-Undo-Rollout-Manifest"><a href="#Stage-Undo-Rollout-Manifest" class="headerlink" title="Stage-Undo Rollout (Manifest)"></a>Stage-Undo Rollout (Manifest)</h4><p>若是我们发布发现出现问题，也可以设计回滚的stage，spinnaker的回滚极其的方便，在我们的日常部署中，每个版本都会存在对应的部署记录，如下所示：<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726162041.jpg" alt="image"></p>
+<h5 id="spinnakerpipeline配置信息"><a href="#spinnakerpipeline配置信息" class="headerlink" title="spinnakerpipeline配置信息"></a>spinnakerpipeline配置信息</h5><p>回滚的pipeline描述中我们需要选择对应的deployment的回滚信息，以及回滚的版本数量。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726161643.png" alt="image"></p>
+<h5 id="运行结果的示例-2"><a href="#运行结果的示例-2" class="headerlink" title="运行结果的示例"></a>运行结果的示例</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726162234.jpg" alt="image"></p>
+<h4 id="Stage-Canary-Analysis"><a href="#Stage-Canary-Analysis" class="headerlink" title="Stage-Canary Analysis"></a>Stage-Canary Analysis</h4><p>金丝雀部署方式：在我们发布新版本时引入部分流量到canary的服务中，kayenta会读取spinnaker中配置的prometheus中收集的指标，比如内存，CPU，接口超时时间，失败率等等通过kayenta中NetflixACAJudge来进行分析与判断，将分析的结果存于S3中，最终会给出这段时间的最终结果。</p>
+<p>Canary分析主要经过如下四个步骤：</p>
+<ul>
+<li>验证数据</li>
+<li>清理数据</li>
+<li>比对指标</li>
+<li>分数计算</li>
+</ul>
+<h5 id="设计的模型如下："><a href="#设计的模型如下：" class="headerlink" title="设计的模型如下："></a>设计的模型如下：</h5><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726163230.png" alt="image"></p>
+<h5 id="运行结果的设计与展示"><a href="#运行结果的设计与展示" class="headerlink" title="运行结果的设计与展示"></a>运行结果的设计与展示</h5><ul>
+<li>我们需要对应用开启canary的配置。</li>
+<li>创建出baseline与canary的deployment由同一个service指向这两个deployment。</li>
+<li>我们这里采用读取prometheus的指标，需要在hal中增加prometheus配置。Metric可以直接匹配prometheus的指标。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190604.jpg" alt="image"><br>需要配置收集指标以及指标的权重<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190816.jpg" alt="image"></li>
+</ul>
+<p><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812190833.jpg" alt="image"></p>
+<ul>
+<li>在pipeline中指定收集分析的频率以及需要指定的源，同时可以配置scoring从而覆盖模板中的配置。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812192637.jpg" alt="image"></li>
+<li>每次分析的执行记录：<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/08/12/20180812192047.jpg" alt="image"></li>
+<li>结果展示如下，由于我们设置的目标是75，所以pipeline的结果判定为失败。<br><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20180726183826.jpg" alt="image"></li>
+</ul>
+<h2 id="线上容器服务的选择与多区容灾。"><a href="#线上容器服务的选择与多区容灾。" class="headerlink" title="线上容器服务的选择与多区容灾。"></a>线上容器服务的选择与多区容灾。</h2><p>我们是腾讯云的客户，采用腾讯云容器服务主要看重以下几个方面: </p>
+<ol>
+<li>Kubernetes在自搭建的集群中，要实现Overlay网络，在腾讯云的环境里，它本身就是软件定义网络VPC，所以它在网络上的实现可以做到在容器环境里和原生的VM网络一样的快，没有任何的性能牺牲。</li>
+<li>应用型负载均衡器和Kubernetes里的ingress相关联，对于需要外部访问的服务能够快速的创建。</li>
+<li>腾讯云的云储存可以被Kubernetes管理，便于持久化的操作。</li>
+<li>腾讯云的部署以及告警也对外提供了服务与接口，可以更好的查看与监控相关的node与pod的情况。</li>
+<li>腾讯云日志服务很好的与容器进行融合，能够方便的收集与检索日志。</li>
+</ol>
+<h3 id="下图是我们在线上以及灰度环境的发布示意图："><a href="#下图是我们在线上以及灰度环境的发布示意图：" class="headerlink" title="下图是我们在线上以及灰度环境的发布示意图："></a>下图是我们在线上以及灰度环境的发布示意图：</h3><p><img src="http://owvvecxcp.bkt.clouddn.com/2018/07/26/20189292.jpg" alt="image"><br>为了容灾我们使用了北京二区与北京三区两个集群，若是需要灰度验证时，则将线上北京三区的权重修改为0，这样通过灰度负载均衡器即可到达新版本应用。日常使用中二区与三区均同时提供挂服务。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/30/container/kubernetes-module---kube-proxy/" rel="next" title="kubernetes-module---kube-proxy">
+                <i class="fa fa-chevron-left"></i> kubernetes-module---kube-proxy
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://opqnf9p09.bkt.clouddn.com/head.png"
+                alt="JIMI" />
+            
+              <p class="site-author-name" itemprop="name">JIMI</p>
+              <p class="site-description motion-element" itemprop="description">努力超越那个谁</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/banghuaji" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhenghongzhi.cn/" title="郑洪志" target="_blank">郑洪志</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#分享内容："><span class="nav-number">1.</span> <span class="nav-text">分享内容：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spinnaker介绍"><span class="nav-number">2.</span> <span class="nav-text">spinnaker介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Application-management"><span class="nav-number">2.1.</span> <span class="nav-text">Application management</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Application"><span class="nav-number">2.1.1.</span> <span class="nav-text">Application</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Server-Group"><span class="nav-number">2.1.2.</span> <span class="nav-text">Server Group</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cluster"><span class="nav-number">2.1.3.</span> <span class="nav-text">Cluster</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Load-Balancer"><span class="nav-number">2.1.4.</span> <span class="nav-text">Load Balancer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Firewall"><span class="nav-number">2.1.5.</span> <span class="nav-text">Firewall</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#页面预览"><span class="nav-number">2.1.6.</span> <span class="nav-text">页面预览</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#部署管理"><span class="nav-number">2.2.</span> <span class="nav-text">部署管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pipeline"><span class="nav-number">2.2.1.</span> <span class="nav-text">Pipeline</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署策略"><span class="nav-number">2.2.2.</span> <span class="nav-text">部署策略</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spinnaker安装踩过的坑"><span class="nav-number">3.</span> <span class="nav-text">spinnaker安装踩过的坑</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装提供的方式："><span class="nav-number">3.1.</span> <span class="nav-text">安装提供的方式：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Halyard方式安装注意点："><span class="nav-number">3.2.</span> <span class="nav-text">Halyard方式安装注意点：</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Halyard代理的配置"><span class="nav-number">3.2.1.</span> <span class="nav-text">Halyard代理的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#部署机器选择"><span class="nav-number">3.2.2.</span> <span class="nav-text">部署机器选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#spinnaker安装步骤"><span class="nav-number">3.2.3.</span> <span class="nav-text">spinnaker安装步骤</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#涉及的组件"><span class="nav-number">3.3.</span> <span class="nav-text">涉及的组件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#spinnaker在kubernetes的持续部署"><span class="nav-number">4.</span> <span class="nav-text">spinnaker在kubernetes的持续部署</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PIPELINE部署示例"><span class="nav-number">4.1.</span> <span class="nav-text">PIPELINE部署示例</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-configuration"><span class="nav-number">4.1.1.</span> <span class="nav-text">Stage-configuration</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Automated-Triggers"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">Automated Triggers</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Parameters"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">Parameters</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Notifications"><span class="nav-number">4.1.1.3.</span> <span class="nav-text">Notifications</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-jenkins"><span class="nav-number">4.1.2.</span> <span class="nav-text">Stage-jenkins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-deploy"><span class="nav-number">4.1.3.</span> <span class="nav-text">Stage-deploy</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#halyard关联KUBERNETES的配置信息"><span class="nav-number">4.1.3.1.</span> <span class="nav-text">halyard关联KUBERNETES的配置信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#spinnaker发布信息展示："><span class="nav-number">4.1.3.2.</span> <span class="nav-text">spinnaker发布信息展示：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的示例："><span class="nav-number">4.1.3.3.</span> <span class="nav-text">运行结果的示例：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-Webhook"><span class="nav-number">4.1.4.</span> <span class="nav-text">Stage-Webhook</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的示例：-1"><span class="nav-number">4.1.4.1.</span> <span class="nav-text">运行结果的示例：</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-Manual-Judgment"><span class="nav-number">4.1.5.</span> <span class="nav-text">Stage-Manual Judgment</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#spinnaker配置信息"><span class="nav-number">4.1.5.1.</span> <span class="nav-text">spinnaker配置信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的示例"><span class="nav-number">4.1.5.2.</span> <span class="nav-text">运行结果的示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-Check-Preconditions"><span class="nav-number">4.1.6.</span> <span class="nav-text">Stage-Check Preconditions</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#spinnaker配置信息-1"><span class="nav-number">4.1.6.1.</span> <span class="nav-text">spinnaker配置信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的示例-1"><span class="nav-number">4.1.6.2.</span> <span class="nav-text">运行结果的示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-Undo-Rollout-Manifest"><span class="nav-number">4.1.7.</span> <span class="nav-text">Stage-Undo Rollout (Manifest)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#spinnakerpipeline配置信息"><span class="nav-number">4.1.7.1.</span> <span class="nav-text">spinnakerpipeline配置信息</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的示例-2"><span class="nav-number">4.1.7.2.</span> <span class="nav-text">运行结果的示例</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Stage-Canary-Analysis"><span class="nav-number">4.1.8.</span> <span class="nav-text">Stage-Canary Analysis</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#设计的模型如下："><span class="nav-number">4.1.8.1.</span> <span class="nav-text">设计的模型如下：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行结果的设计与展示"><span class="nav-number">4.1.8.2.</span> <span class="nav-text">运行结果的设计与展示</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线上容器服务的选择与多区容灾。"><span class="nav-number">5.</span> <span class="nav-text">线上容器服务的选择与多区容灾。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#下图是我们在线上以及灰度环境的发布示意图："><span class="nav-number">5.1.</span> <span class="nav-text">下图是我们在线上以及灰度环境的发布示意图：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JIMI</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
