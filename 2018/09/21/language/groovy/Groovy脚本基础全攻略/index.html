@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/QQ截图20171015140807.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="CI-CD,GROOVY," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="背景Groovy脚本基于Java且拓展了Java，所以从某种程度来说掌握Java是学习Groovy的前提，故本文适用于不熟悉Groovy却想快速得到Groovy核心基础干货的Java开发者（注意是Java），因为我的目的不是深入学习Groovy语言，所以本文基本都是靠代码来解释，这样最直观，同时也够干货基础入门Groovy的特点和结构。 Groovy是一种动态语言，它和Java类似（算是Java的">
+<meta name="keywords" content="CI-CD,GROOVY">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Groovy脚本基础全攻略">
+<meta property="og:url" content="https://banghuaji.github.io/2018/09/21/language/groovy/Groovy脚本基础全攻略/index.html">
+<meta property="og:site_name" content="JIMI的博客">
+<meta property="og:description" content="背景Groovy脚本基于Java且拓展了Java，所以从某种程度来说掌握Java是学习Groovy的前提，故本文适用于不熟悉Groovy却想快速得到Groovy核心基础干货的Java开发者（注意是Java），因为我的目的不是深入学习Groovy语言，所以本文基本都是靠代码来解释，这样最直观，同时也够干货基础入门Groovy的特点和结构。 Groovy是一种动态语言，它和Java类似（算是Java的">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://img.blog.csdn.net/20151021174826717">
+<meta property="og:updated_time" content="2017-11-03T04:42:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Groovy脚本基础全攻略">
+<meta name="twitter:description" content="背景Groovy脚本基于Java且拓展了Java，所以从某种程度来说掌握Java是学习Groovy的前提，故本文适用于不熟悉Groovy却想快速得到Groovy核心基础干货的Java开发者（注意是Java），因为我的目的不是深入学习Groovy语言，所以本文基本都是靠代码来解释，这样最直观，同时也够干货基础入门Groovy的特点和结构。 Groovy是一种动态语言，它和Java类似（算是Java的">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20151021174826717">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://banghuaji.github.io/2018/09/21/language/groovy/Groovy脚本基础全攻略/"/>
+
+
+
+
+
+  <title>Groovy脚本基础全攻略 | JIMI的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?06d8ad0ca4fc329dab889818aba53f39";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JIMI的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">主孰有道？将孰有能？天地孰得？法令孰行？兵众孰强？士卒孰练？赏罚孰明？吾以此知胜负矣。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-customizeds">
+          <a href="/customizeds/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            联系方式
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/language/groovy/Groovy脚本基础全攻略/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Groovy脚本基础全攻略</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:57+08:00">
+                2018-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>Groovy脚本基于Java且拓展了Java，所以从某种程度来说掌握Java是学习Groovy的前提，故本文适用于不熟悉Groovy却想快速得到Groovy核心基础干货的Java开发者（注意是Java），因为我的目的不是深入学习Groovy语言，所以本文基本都是靠代码来解释，这样最直观，同时也够干货基础入门Groovy的特点和结构。</p>
+<p>Groovy是一种动态语言，它和Java类似（算是Java的升级版，但是又具备脚本语言的特点），都在Java虚拟机中运行。当运行Groovy脚本时它会先被编译成Java类字节码，然后通过JVM虚拟机执行这个Java字节码类。</p>
+<h2 id="快速安装指南："><a href="#快速安装指南：" class="headerlink" title="快速安装指南："></a>快速安装指南：</h2><p>我们在写Groovy代码时可以直接使用自己喜欢的文本编辑器编辑OK以后以.groovy后缀保存，然后在终端执行如下命令即可运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ groovy ./TestFile.groovy</div></pre></td></tr></table></figure>
+<p>再或者我们还可以使用Intellij IDEA等工具安装groovy插件进行groovy开发，这里不再一一叙述了（配置环境点我），直接给出一个读取指定文件内容打印的例子，如下：<br><img src="http://img.blog.csdn.net/20151021174826717" alt="image"></p>
+<h2 id="语法基础"><a href="#语法基础" class="headerlink" title="语法基础"></a>语法基础</h2><h3 id="注释"><a href="#注释" class="headerlink" title="注释"></a>注释</h3><p>Groovy的单行注释、多行注释、文档注释基本都和Java一样，没啥特殊的，不再细说。只有一种特殊的单行注释需要留意一下即可。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">#!/usr/bin/env groovy</div><div class="line">println &quot;Hello from the shebang line&quot;</div></pre></td></tr></table></figure></p>
+<p>这种注释通常是用来给UNIX系统声明允许脚本运行的类型的，一般都是固定写法，没啥讲究的。</p>
+<h3 id="关键字"><a href="#关键字" class="headerlink" title="关键字"></a>关键字</h3><p>Groovy有如下一些关键字，我们些代码命名时要注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">as、assert、break、case、catch、class、const、continue、def、default、do、else、enum、extends、false、finally、for、goto、if、implements、</div><div class="line">import、in、instanceof、interface、new、null、package、return、super、switch、this、throw、throws、trait、true、try、while</div></pre></td></tr></table></figure>
+<p>这玩意和其他语言一样，没啥特殊的，自行脑补。</p>
+<h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><p>对于Groovy的标示符和Java还是有些共同点和区别的，特别是引用标示符的区别，具体可以往下看。</p>
+<h4 id="普通标识符"><a href="#普通标识符" class="headerlink" title="普通标识符"></a>普通标识符</h4><p>普通标识符定义和C语言类似，只能以字母、美元符、下划线开始，不能以数字开头。如下例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">//正确</div><div class="line">def name</div><div class="line">def $name</div><div class="line">def name_type</div><div class="line">def foo.assert</div><div class="line">//错误</div><div class="line">def 5type</div><div class="line">def a+b</div></pre></td></tr></table></figure>
+<h4 id="引用标识符"><a href="#引用标识符" class="headerlink" title="引用标识符"></a>引用标识符</h4><p>引用标识符出现在点后的表达式中，我们可以如下一样使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def map = [:]</div><div class="line">//引用标示符中出现空格也是对的</div><div class="line">map.&quot;an identifier with a space and double quotes&quot; = &quot;ALLOWED&quot;</div><div class="line">//引用标示符中出现横线也是对的</div><div class="line">map.&apos;with-dash-signs-and-single-quotes&apos; = &quot;ALLOWED&quot;</div><div class="line"></div><div class="line">assert map.&quot;an identifier with a space and double quotes&quot; == &quot;ALLOWED&quot;</div><div class="line">assert map.&apos;with-dash-signs-and-single-quotes&apos; == &quot;ALLOWED&quot;</div></pre></td></tr></table></figure>
+<p>Groovy的所有字符串都可以当作引用标示符定义，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//如下类型字符串作为引用标识符都是对的</div><div class="line">map.&apos;single quote&apos;</div><div class="line">map.&quot;double quote&quot;</div><div class="line">map.&apos;&apos;&apos;triple single quote&apos;&apos;&apos;</div><div class="line">map.&quot;&quot;&quot;triple double quote&quot;&quot;&quot;</div><div class="line">map./slashy string/</div><div class="line">map.$/dollar slashy string/$</div><div class="line"></div><div class="line">//稍微特殊的GString，也是对的</div><div class="line">def firstname = &quot;Homer&quot;</div><div class="line">map.&quot;Simson-$&#123;firstname&#125;&quot; = &quot;Homer Simson&quot;</div><div class="line"></div><div class="line">assert map.&apos;Simson-Homer&apos; == &quot;Homer Simson</div></pre></td></tr></table></figure>
+<h3 id="字符及字符串"><a href="#字符及字符串" class="headerlink" title="字符及字符串"></a>字符及字符串</h3><p>Groovy有java.lang.String和groovy.lang.GString两中字符串对象类型，具体如下细说。</p>
+<h4 id="单引号字符串"><a href="#单引号字符串" class="headerlink" title="单引号字符串"></a>单引号字符串</h4><p>单引号字符串是java.lang.String类型的，不支持站位符插值操作，譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">def name = &apos;Test Groovy!&apos;</div><div class="line">def body = &apos;Test $name&apos;</div><div class="line"></div><div class="line">assert name == &apos;Test Groovy!&apos;</div><div class="line">assert body == &apos;Test $name&apos;		//不会替换$name站位符</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Groovy的字符串可以通过”+“直接拼接，譬如：</div><div class="line"></div><div class="line">assert &apos;ab&apos; == &apos;a&apos; + &apos;b&apos;</div></pre></td></tr></table></figure>
+<p>其中涉及转义字符规则同Java，只用特殊注意”’“的转义即可。</p>
+<h4 id="三重单引号字符串"><a href="#三重单引号字符串" class="headerlink" title="三重单引号字符串"></a>三重单引号字符串</h4><p>三重单引号字符串是java.lang.String类型的，不支持站位符插值操作，可以标示多行字符串，譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def aMultilineString = &apos;&apos;&apos;line one</div><div class="line">line two</div><div class="line">line three&apos;&apos;&apos;</div></pre></td></tr></table></figure>
+<p>三重单引号字符串允许字符串的内容在多行出现，新的行被转换为“\n”，其他所有的空白字符都被完整的按照文本原样保留；字符开头添加“/”表示字符内容不转义反斜杠“\”，只有在反斜杠接下来是一个字符u的时候才需要进行转义，因为\u表示一个unicode转义。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def strippedFirstNewline = &apos;&apos;&apos;\</div><div class="line">line one</div><div class="line">line two</div><div class="line">line three</div><div class="line">&apos;&apos;&apos;</div><div class="line"></div><div class="line">assert !strippedFirstNewline.startsWith(&apos;\n&apos;)</div></pre></td></tr></table></figure>
+<h4 id="双引号字符串"><a href="#双引号字符串" class="headerlink" title="双引号字符串"></a>双引号字符串</h4><p>双引号字符串支持站位插值操作，如果双引号字符串中不包含站位符则是java.lang.String类型的，如果双引号字符串中包含站位符则是groovy.lang.GString类型的。</p>
+<p>对于插值占位符我们可以用${}或者$来标示，${}用于一般替代字串或者表达式，$主要用于A.B的形式中，具体如下例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">def name = &apos;Guillaume&apos; // a plain string</div><div class="line">def greeting = &quot;Hello $&#123;name&#125;&quot;</div><div class="line">assert greeting.toString() == &apos;Hello Guillaume&apos;</div><div class="line"></div><div class="line">def sum = &quot;The sum of 2 and 3 equals $&#123;2 + 3&#125;&quot;</div><div class="line">assert sum.toString() == &apos;The sum of 2 and 3 equals 5&apos;</div><div class="line"></div><div class="line">def person = [name: &apos;Guillaume&apos;, age: 36]</div><div class="line">assert &quot;$person.name is $person.age years old&quot; == &apos;Guillaume is 36 years old&apos;</div></pre></td></tr></table></figure>
+<p>特别注意，$只对A.B等有效，如果表达式包含括号（像方法调用）、大括号、闭包等符号则是无效的。譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def number = 3.14</div><div class="line">shouldFail(MissingPropertyException) &#123;</div><div class="line">    println &quot;$number.toString()&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>//该代码运行抛出groovy.lang.MissingPropertyException异常，因为Groovy认为去寻找number的名为toString的属性，所以异常</p>
+<p>注意，在表达式中访问属性前必须保证属性已经定义好(值为空也可以)，如果使用了未定义的属性会抛出groovy.lang.MissingPropertyException异常。 GString还支持延迟运算，譬如在GString中使用闭包，闭包在调用GString的toString()方法时被延迟执行；闭包中可以有0或1个参数，若指定一个参数，则参数会被传入一个Writer对象，我们可以利用这个Writer对象来写入字符，若没有参数，闭包返回值的toString()方法被调用。譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//无参数闭包</div><div class="line">def sParameterLessClosure = &quot;1 + 2 == $&#123;-&gt; 3&#125;&quot; </div><div class="line">assert sParameterLessClosure == &apos;1 + 2 == 3&apos;</div><div class="line">//一个参数闭包</div><div class="line">def sOneParamClosure = &quot;1 + 2 == $&#123; w -&gt; w &lt;&lt; 3&#125;&quot; </div><div class="line">assert sOneParamClosure == &apos;1 + 2 == 3&apos;</div></pre></td></tr></table></figure>
+<p>上面了解了GString的推迟运算特性，下面我们再来看一个牛逼的特性，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">def number = 1 </div><div class="line">def eagerGString = &quot;value == $&#123;number&#125;&quot;</div><div class="line">def lazyGString = &quot;value == $&#123; -&gt; number &#125;&quot;</div><div class="line"></div><div class="line">assert eagerGString == &quot;value == 1&quot; </div><div class="line">assert lazyGString ==  &quot;value == 1&quot; </div><div class="line"></div><div class="line">number = 2 </div><div class="line">assert eagerGString == &quot;value == 1&quot; </div><div class="line">assert lazyGString ==  &quot;value == 2&quot;</div></pre></td></tr></table></figure>
+<p>可以看见，eagerGString是普通的双引号插值站位替换，lazyGString是双引号闭包插值替换，我们可以发现在number变为2以后他们的运算结果就有了差异。可以明显推理到结论，一个普通插值表达式值替换实际是在GString创建的时刻，一个包含闭包的表达式由于延迟运算调运toString()方法，所以会产生一个新的字符串值。</p>
+<p>当然了，GString和String即使字符串一样他们的HashCode也不会一样，譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">assert &quot;one: $&#123;1&#125;&quot;.hashCode() != &quot;one: 1&quot;.hashCode()</div></pre></td></tr></table></figure>
+<p>由于相同字符串的String与GString的HashCode不同，所以我们一定要避免使用GString作为MAP的key，譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def key = &quot;a&quot;</div><div class="line">def m = [&quot;$&#123;key&#125;&quot;: &quot;letter $&#123;key&#125;&quot;]     </div><div class="line"></div><div class="line">assert m[&quot;a&quot;] == null   //由于key的HashCode不同，所以取不到</div></pre></td></tr></table></figure>
+<p>其中涉及转义字符规则同Java，只用特殊注意””“的转义即可。</p>
+<h4 id="多重双引号字符串"><a href="#多重双引号字符串" class="headerlink" title="多重双引号字符串"></a>多重双引号字符串</h4><p>多重双引号字符串也支持站位插值操作，我们要特别注意在多重双引号字符串中的单引号和双引号转换问题。譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">def name = &apos;Groovy&apos;</div><div class="line">def template = &quot;&quot;&quot;</div><div class="line">    Dear Mr $&#123;name&#125;,</div><div class="line"></div><div class="line">    You&apos;re the winner of the lottery!</div><div class="line"></div><div class="line">    Yours sincerly,</div><div class="line"></div><div class="line">    Dave</div><div class="line">&quot;&quot;&quot;</div><div class="line"></div><div class="line">assert template.toString().contains(&apos;Groovy&apos;)</div></pre></td></tr></table></figure>
+<h4 id="斜线字符串"><a href="#斜线字符串" class="headerlink" title="斜线字符串"></a>斜线字符串</h4><p>斜线字符串其实和双引号字符串很类似，通常用在正则表达式中，下面我们看几个例子，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//普通使用</div><div class="line">def fooPattern = /.*foo.*/</div><div class="line">assert fooPattern == &apos;.*foo.*&apos;</div><div class="line">//含转义字符使用</div><div class="line">def escapeSlash = /The character \/ is a forward slash/</div><div class="line">assert escapeSlash == &apos;The character / is a forward slash&apos;</div><div class="line">//多行支持</div><div class="line">def multilineSlashy = /one</div><div class="line">    two</div><div class="line">    three/</div><div class="line"></div><div class="line">assert multilineSlashy.contains(&apos;\n&apos;)</div><div class="line">//含站位符使用支持</div><div class="line">def color = &apos;blue&apos;</div><div class="line">def interpolatedSlashy = /a $&#123;color&#125; car/</div><div class="line"></div><div class="line">assert interpolatedSlashy == &apos;a blue car&apos;</div></pre></td></tr></table></figure>
+<p>特别注意，一个空的斜线字符串会被Groovy解析器解析为一注释。</p>
+<h4 id="字符Characters"><a href="#字符Characters" class="headerlink" title="字符Characters"></a>字符Characters</h4><p>不像Java，Groovy没有明确的Characters。但是我们可以有如下三种不同的方式来将字符串作为字符处理，譬如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">char c1 = &apos;A&apos; </div><div class="line">assert c1 instanceof Character</div><div class="line"></div><div class="line">def c2 = &apos;B&apos; as char </div><div class="line">assert c2 instanceof Character</div><div class="line"></div><div class="line">def c3 = (char)&apos;C&apos; </div><div class="line">assert c3 instanceof Character</div></pre></td></tr></table></figure>
+<h3 id="数字Numbers"><a href="#数字Numbers" class="headerlink" title="数字Numbers"></a>数字Numbers</h3><p>Groovy支持各种类型的整型和数值类型，通常支持Java支持的那些，下面我们仔细来说说。</p>
+<h4 id="整型"><a href="#整型" class="headerlink" title="整型"></a>整型</h4><p>Groovy像Java一样支持如下一些整型，byte、char、short、int、long、java.lang.BigInteger。我们在使用中可以像下面例子一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">// primitive types</div><div class="line">byte  b = 1</div><div class="line">char  c = 2</div><div class="line">short s = 3</div><div class="line">int   i = 4</div><div class="line">long  l = 5</div><div class="line"></div><div class="line">// infinite precision</div><div class="line">BigInteger bi =  6</div><div class="line"></div><div class="line"></div><div class="line">int xInt = 077</div><div class="line">assert xInt == 63</div><div class="line"></div><div class="line">int xInt = 0x77</div><div class="line">assert xInt == 119</div><div class="line"></div><div class="line">int xInt = 0b10101111</div><div class="line">assert xInt == 175</div></pre></td></tr></table></figure>
+<h4 id="浮点型"><a href="#浮点型" class="headerlink" title="浮点型"></a>浮点型</h4><p>Groovy像Java一样支持如下一些浮点型，float、double、java.lang.BigDecimal。我们在使用中可以像下面例子一样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// primitive types</div><div class="line">float  f = 1.234</div><div class="line">double d = 2.345</div><div class="line"></div><div class="line">// infinite precision</div><div class="line">BigDecimal bd =  3.456</div><div class="line"></div><div class="line"></div><div class="line">assert 1e3  ==  1_000.0</div><div class="line">assert 2E4  == 20_000.0</div><div class="line">assert 3e+1 ==     30.0</div><div class="line">assert 4E-2 ==      0.04</div></pre></td></tr></table></figure>
+<h4 id="Booleans类型"><a href="#Booleans类型" class="headerlink" title="Booleans类型"></a>Booleans类型</h4><p>Boolean类型没啥解释的，和其他语言一样，就两个值，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def myBooleanVariable = true</div><div class="line">boolean untypedBooleanVar = false</div><div class="line">booleanField = true</div><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td></tr></table></figure>
+<p>比较简单，没啥特例，自行脑补。</p>
+<h3 id="Lists类型"><a href="#Lists类型" class="headerlink" title="Lists类型"></a>Lists类型</h3><p>Groovy同样支持java.util.List类型，在Groovy中同样允许向列表中增加或者删除对象，允许在运行时改变列表的大小，保存在列表中的对象不受类型的限制；此外还可以通过超出列表范围的数来索引列表。如下例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div></pre></td><td class="code"><pre><div class="line">//使用动态List</div><div class="line">def numbers = [1, 2, 3]         </div><div class="line">assert numbers instanceof List  </div><div class="line">assert numbers.size() == 3</div><div class="line"></div><div class="line">//List中存储任意类型</div><div class="line">def heterogeneous = [1, &quot;a&quot;, true]</div><div class="line"></div><div class="line">//判断List默认类型</div><div class="line">def arrayList = [1, 2, 3]</div><div class="line">assert arrayList instanceof java.util.ArrayList</div><div class="line"></div><div class="line">//使用as强转类型</div><div class="line">def linkedList = [2, 3, 4] as LinkedList    </div><div class="line">assert linkedList instanceof java.util.LinkedList</div><div class="line"></div><div class="line">//定义指定类型List</div><div class="line">LinkedList otherLinked = [3, 4, 5]          </div><div class="line">assert otherLinked instanceof java.util.LinkedList</div><div class="line"></div><div class="line">//定义List使用</div><div class="line">def letters = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;]</div><div class="line">//判断item值</div><div class="line">assert letters[0] == &apos;a&apos;     </div><div class="line">assert letters[1] == &apos;b&apos;</div><div class="line">//负数下标则从右向左index</div><div class="line">assert letters[-1] == &apos;d&apos;    </div><div class="line">assert letters[-2] == &apos;c&apos;</div><div class="line">//指定item赋值判断</div><div class="line">letters[2] = &apos;C&apos;             </div><div class="line">assert letters[2] == &apos;C&apos;</div><div class="line">//给List追加item</div><div class="line">letters &lt;&lt; &apos;e&apos;               </div><div class="line">assert letters[ 4] == &apos;e&apos;</div><div class="line">assert letters[-1] == &apos;e&apos;</div><div class="line">//获取一段List子集</div><div class="line">assert letters[1, 3] == [&apos;b&apos;, &apos;d&apos;]         </div><div class="line">assert letters[2..4] == [&apos;C&apos;, &apos;d&apos;, &apos;e&apos;] </div><div class="line"></div><div class="line">//多维List支持</div><div class="line">def multi = [[0, 1], [2, 3]]     </div><div class="line">assert multi[1][0] == 2</div></pre></td></tr></table></figure>
+<h3 id="Arrays类型"><a href="#Arrays类型" class="headerlink" title="Arrays类型"></a>Arrays类型</h3><p>Groovy中数组和Java类似，具体如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line">//定义初始化String数组</div><div class="line">String[] arrStr = [&apos;Ananas&apos;, &apos;Banana&apos;, &apos;Kiwi&apos;]  </div><div class="line">assert arrStr instanceof String[]    </div><div class="line">assert !(arrStr instanceof List)</div><div class="line"></div><div class="line">//使用def定义初始化int数组</div><div class="line">def numArr = [1, 2, 3] as int[]      </div><div class="line">assert numArr instanceof int[]       </div><div class="line">assert numArr.size() == 3</div><div class="line"></div><div class="line">//声明定义多维数组指明宽度</div><div class="line">def matrix3 = new Integer[3][3]         </div><div class="line">assert matrix3.size() == 3</div><div class="line"></div><div class="line">//声明多维数组不指定宽度</div><div class="line">Integer[][] matrix2                     </div><div class="line">matrix2 = [[1, 2], [3, 4]]</div><div class="line">assert matrix2 instanceof Integer[][]</div><div class="line"></div><div class="line">//数组的元素使用及赋值操作</div><div class="line">String[] names = [&apos;Cédric&apos;, &apos;Guillaume&apos;, &apos;Jochen&apos;, &apos;Paul&apos;]</div><div class="line">assert names[0] == &apos;Cédric&apos;     </div><div class="line">names[2] = &apos;Blackdrag&apos;          </div><div class="line">assert names[2] == &apos;Blackdrag&apos;</div></pre></td></tr></table></figure>
+<h3 id="Maps类型"><a href="#Maps类型" class="headerlink" title="Maps类型"></a>Maps类型</h3><p>Map是“键-值”对的集合，在Groovy中键key不一定是String，可以是任何对象(实际上Groovy中的Map就是java.util.Linke dHashMap)。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">//定义一个Map</div><div class="line">def colors = [red: &apos;#FF0000&apos;, green: &apos;#00FF00&apos;, blue: &apos;#0000FF&apos;]   </div><div class="line">//获取一些指定key的value进行判断操作</div><div class="line">assert colors[&apos;red&apos;] == &apos;#FF0000&apos;    </div><div class="line">assert colors.green  == &apos;#00FF00&apos;</div><div class="line">//给指定key的对赋值value操作与判断    </div><div class="line">colors[&apos;pink&apos;] = &apos;#FF00FF&apos;           </div><div class="line">colors.yellow  = &apos;#FFFF00&apos;           </div><div class="line">assert colors.pink == &apos;#FF00FF&apos;</div><div class="line">assert colors[&apos;yellow&apos;] == &apos;#FFFF00&apos;</div><div class="line">//判断Map的类型</div><div class="line">assert colors instanceof java.util.LinkedHashMap</div><div class="line">//访问Map中不存在的key为null</div><div class="line">assert colors.unknown == null</div><div class="line"></div><div class="line">//定义key类型为数字的Map</div><div class="line">def numbers = [1: &apos;one&apos;, 2: &apos;two&apos;]</div><div class="line">assert numbers[1] == &apos;one&apos;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">对于Map需要特别注意一种情况，如下：</div><div class="line"></div><div class="line">//把一个定义的变量作为Map的key，访问Map的该key是失败的</div><div class="line">def key = &apos;name&apos;</div><div class="line">def person = [key: &apos;Guillaume&apos;]      </div><div class="line">assert !person.containsKey(&apos;name&apos;)   </div><div class="line">assert person.containsKey(&apos;key&apos;) </div><div class="line"></div><div class="line">//把一个定义的变量作为Map的key的正确写法---添加括弧，访问Map的该key是成功的</div><div class="line">person = [(key): &apos;Guillaume&apos;]        </div><div class="line">assert person.containsKey(&apos;name&apos;)    </div><div class="line">assert !person.containsKey(&apos;key&apos;)</div></pre></td></tr></table></figure>
+<h2 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h2><p>关于Groovy的运算符介绍类似于上面一样，我们重点突出与Java的不同点，相同点自行脑补。</p>
+<p>Groovy支持**次方运算符，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div></pre></td><td class="code"><pre><div class="line">assert  2 ** 3 == 8</div><div class="line"></div><div class="line">def f = 3</div><div class="line">f **= 2</div><div class="line">assert f == 9</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">Groovy非运算符如下：</div><div class="line"></div><div class="line">assert (!true)    == false                      </div><div class="line">assert (!&apos;foo&apos;)   == false                      </div><div class="line">assert (!&apos;&apos;)      == true </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">Groovy支持?.安全占位符，这个运算符主要用于避免空指针异常，譬如：</div><div class="line"></div><div class="line">def person = Person.find &#123; it.id == 123 &#125;    </div><div class="line">def name = person?.name                      </div><div class="line">assert name == null  </div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">Groovy支持.@直接域访问操作符，因为Groovy自动支持属性getter方法，但有时候我们有一个自己写的特殊getter方法，当不想调用这个特殊的getter方法则可以用直接域访问操作符。如下：</div><div class="line"></div><div class="line">class User &#123;</div><div class="line">    public final String name                 </div><div class="line">    User(String name) &#123; this.name = name&#125;</div><div class="line">    String getName() &#123; &quot;Name: $name&quot; &#125;       </div><div class="line">&#125;</div><div class="line">def user = new User(&apos;Bob&apos;)</div><div class="line"></div><div class="line">assert user.name == &apos;Name: Bob&apos;</div><div class="line">assert user.@name == &apos;Bob&apos;  </div><div class="line">1</div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line">Groovy支持.&amp;方法指针操作符，因为闭包可以被作为一个方法的参数，如果想让一个方法作为另一个方法的参数则可以将一个方法当成一个闭包作为另一个方法的参数。如下：</div><div class="line"></div><div class="line">    def list = [&apos;a&apos;,&apos;b&apos;,&apos;c&apos;]  </div><div class="line">    //常规写法 </div><div class="line">    list.each&#123;  </div><div class="line">        println it  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">    String printName(name)&#123;  </div><div class="line">        println name  </div><div class="line">    &#125;  </div><div class="line"></div><div class="line">    //方法指针操作符写法</div><div class="line">    list.each(this.&amp;printName)</div></pre></td></tr></table></figure>
+<p>Groovy支持将?:三目运算符简化为二目，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">displayName = user.name ? user.name : &apos;Anonymous&apos;   </div><div class="line">displayName = user.name ?: &apos;Anonymous&apos; </div><div class="line">1</div><div class="line">2</div><div class="line">Groovy支持*.展开运算符，一个集合使用展开运算符可以得到一个元素为原集合各个元素执行后面指定方法所得值的集合，如下：</div><div class="line"></div><div class="line">cars = [</div><div class="line">   new Car(make: &apos;Peugeot&apos;, model: &apos;508&apos;),</div><div class="line">   null,                                              </div><div class="line">   new Car(make: &apos;Renault&apos;, model: &apos;Clio&apos;)]</div><div class="line">assert cars*.make == [&apos;Peugeot&apos;, null, &apos;Renault&apos;]     </div><div class="line">assert null*.make == null</div></pre></td></tr></table></figure></p>
+<p>关于Groovy的其他运算符就不多说，类比Java吧。</p>
+<h2 id="程序结构"><a href="#程序结构" class="headerlink" title="程序结构"></a>程序结构</h2><p>这里主要讨论Groovy的代码组成结构，具体如下细则。</p>
+<h3 id="包名"><a href="#包名" class="headerlink" title="包名"></a>包名</h3><p>包名的定义和作用及含义完全和Java一样，不再介绍，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// defining a package named com.yoursite</div><div class="line">package com.yoursite</div></pre></td></tr></table></figure>
+<h3 id="Imports引入"><a href="#Imports引入" class="headerlink" title="Imports引入"></a>Imports引入</h3><p>常规的imports导包操作和Java一样，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">//例1：</div><div class="line">import groovy.xml.MarkupBuilder</div><div class="line"></div><div class="line">// using the imported class to create an object</div><div class="line">def xml = new MarkupBuilder()</div><div class="line">assert xml != null</div><div class="line"></div><div class="line">//例2：</div><div class="line">import groovy.xml.*</div><div class="line"></div><div class="line">def markupBuilder = new MarkupBuilder()</div><div class="line">assert markupBuilder != null</div><div class="line">assert new StreamingMarkupBuilder() != null</div><div class="line"></div><div class="line">//例3：</div><div class="line">import static Boolean.FALSE</div><div class="line"></div><div class="line">assert !FALSE</div><div class="line"></div><div class="line">//例4：特殊的，相当于用as取别名</div><div class="line">import static Calendar.getInstance as now</div><div class="line"></div><div class="line">assert now().class == Calendar.getInstance().class</div></pre></td></tr></table></figure>
+<p>不过要特别注意，Groovy与Java类似，已经帮我们默认导入了一些常用的包，所以在我们使用这些包的类时就不用再像上面那样导入了，如下是自动导入的包列表：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">import java.lang.*</div><div class="line">import java.util.*</div><div class="line">import java.io.*</div><div class="line">import java.net.*</div><div class="line">import groovy.lang.*</div><div class="line">import groovy.util.*</div><div class="line">import java.math.BigInteger</div><div class="line">import java.math.BigDecimal</div></pre></td></tr></table></figure>
+<h3 id="脚本与类（脚本的实质）"><a href="#脚本与类（脚本的实质）" class="headerlink" title="脚本与类（脚本的实质）"></a>脚本与类（脚本的实质）</h3><p>相对于传统的Java类，一个包含main方法的Groovy类可以如下书写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">class Main &#123;                                    </div><div class="line">    static void main(String... args) &#123;          </div><div class="line">        println &apos;Groovy world!&apos;                 </div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">1</div></pre></td></tr></table></figure>
+<p>和Java一样，程序会从这个类的main方法开始执行，这是Groovy代码的一种写法，实际上执行Groovy代码完全可以不需要类或main方法，所以更简单的写法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">println &apos;Groovy world!&apos;</div><div class="line">1</div><div class="line">上面这两中写法其实是一样的，具体我们可以通过如下命令进行编译为class文件：</div><div class="line"></div><div class="line">groovyc demo.groovy //编译Groovy源码为class</div><div class="line">1</div><div class="line">我们使用反编译工具可以查看到这个demo.groovy类源码如下：</div><div class="line"></div><div class="line">import org.codehaus.groovy.runtime.InvokerHelper</div><div class="line">class Main extends Script &#123;                     </div><div class="line">    def run() &#123;                                 </div><div class="line">        println &apos;Groovy world!&apos;                 </div><div class="line">    &#125;</div><div class="line">    static void main(String[] args) &#123;           </div><div class="line">        InvokerHelper.runScript(Main, args)     </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看见，上面我们写的groovy文件编译后的class其实是Java类，该类从Script类派生而来（查阅API）；可以发现，每个脚本都会生成一个static main方法，我们执行groovy脚本的实质其实是执行的这个Java类的main方法，脚本源码里所有代码都被放到了run方法中，脚本中定义的方法（该例暂无）都会被定义在Main类中。</p>
+<p>通过上面可以发现，Groovy的实质就是Java的class，也就是说他一定会和Java一样存在变量作用域！对哦，前面我们解释变量时竟然没说到这个东东，这里说下吧。看下面例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">//单个Groovy源码文件，运行会报错找不到num变量</div><div class="line">def num = 1 </div><div class="line">def printNum()&#123;  </div><div class="line">    println num  </div><div class="line">&#125;</div><div class="line"></div><div class="line">//单个Groovy源码文件，运行会报错找不到num变量</div><div class="line">int num = 1 </div><div class="line">def printNum()&#123;  </div><div class="line">    println num  </div><div class="line">&#125;  </div><div class="line"></div><div class="line">//单个Groovy源码文件，运行OK成功</div><div class="line">num = 1 </div><div class="line">def printNum()&#123;  </div><div class="line">    println num  </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面的例子可以发现，我们如果想要在Groovy的方法中使用Groovy的变量则不能有修饰符。然而，如果我们想在B.groovy文件访问A.groovy文件的num变量咋办呢，我们可以使用Field注解，具体操作如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">import groovy.transform.Field;</div><div class="line">@Field num = 1</div><div class="line">1</div><div class="line">2</div></pre></td></tr></table></figure>
+<p>哈哈，这就是Groovy的变量作用域了，如果你想知道上面这些写法为啥出错，很简单，自己动手整成Java源码相信你一定可以看懂为啥鸟。</p>
+<h2 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h2><p>Groovy的闭包（closure）是一个非常重要的概念，闭包是可以用作方法参数的代码块，Groovy的闭包更象是一个代码块或者方法指针，代码在某处被定义然后在其后的调用处执行。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>定义一个闭包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123; [closureParameters -&gt; ] statements &#125;</div><div class="line"></div><div class="line">//[closureparameters -&gt; ]是可选的逗号分隔的参数列表，参数类似于方法的参数列表，这些参数可以是类型化或非类型化的。</div></pre></td></tr></table></figure>
+<p>如下给出几个有效的闭包定义例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">//最基本的闭包</div><div class="line">&#123; item++ &#125;                                          </div><div class="line">//使用-&gt;将参数与代码分离</div><div class="line">&#123; -&gt; item++ &#125;                                       </div><div class="line">//使用隐含参数it（后面有介绍）</div><div class="line">&#123; println it &#125;                                      </div><div class="line">//使用明确的参数it替代</div><div class="line">&#123; it -&gt; println it &#125;                                </div><div class="line">//使用显示的名为参数</div><div class="line">&#123; name -&gt; println name &#125;                            </div><div class="line">//接受两个参数的闭包</div><div class="line">&#123; String x, int y -&gt;                                </div><div class="line">    println &quot;hey $&#123;x&#125; the value is $&#123;y&#125;&quot;</div><div class="line">&#125;</div><div class="line">//包含一个参数多个语句的闭包</div><div class="line">&#123; reader -&gt;                                         </div><div class="line">    def line = reader.readLine()</div><div class="line">    line.trim()</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>闭包对象：</p>
+<p>一个闭包其实就是一个groovy.lang.Closure类型的实例，如下：</p>
+<p>//定义一个Closure类型的闭包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def listener = &#123; e -&gt; println &quot;Clicked on $e.source&quot; &#125;      </div><div class="line">assert listener instanceof Closure</div><div class="line">//定义直接指定为Closure类型的闭包</div><div class="line">Closure callback = &#123; println &apos;Done!&apos; &#125;                      </div><div class="line">Closure&lt;Boolean&gt; isTextFile = &#123;</div><div class="line">    File it -&gt; it.name.endsWith(&apos;.txt&apos;)                     </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>调运闭包：</p>
+<p>其实闭包和C语言的函数指针非常像，我们定义好闭包后调用的方法有如下两种形式：</p>
+<p>闭包对象.call(参数)</p>
+<p>闭包对象(参数)</p>
+<p>如下给出例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def code = &#123; 123 &#125;</div><div class="line">assert code() == 123</div><div class="line">assert code.call() == 123</div><div class="line"></div><div class="line">def isOdd = &#123; int i-&gt; i%2 == 1 &#125;                            </div><div class="line">assert isOdd(3) == true                                     </div><div class="line">assert isOdd.call(2) == false</div></pre></td></tr></table></figure>
+<p>特别注意，如果闭包没定义参数则默认隐含一个名为it的参数，如下例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">def isEven = &#123; it%2 == 0 &#125;                                  </div><div class="line">assert isEven(3) == false                                   </div><div class="line">assert isEven.call(2) == true</div></pre></td></tr></table></figure>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><p>普通参数：</p>
+<p>一个闭包的普通参数定义必须遵循如下一些原则：</p>
+<p>参数类型可选<br>参数名字<br>可选的参数默认值<br>参数必须用逗号分隔<br>如下是一些例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">def closureWithOneArg = &#123; str -&gt; str.toUpperCase() &#125;</div><div class="line">assert closureWithOneArg(&apos;groovy&apos;) == &apos;GROOVY&apos;</div><div class="line"></div><div class="line">def closureWithOneArgAndExplicitType = &#123; String str -&gt; str.toUpperCase() &#125;</div><div class="line">assert closureWithOneArgAndExplicitType(&apos;groovy&apos;) == &apos;GROOVY&apos;</div><div class="line"></div><div class="line">def closureWithTwoArgs = &#123; a,b -&gt; a+b &#125;</div><div class="line">assert closureWithTwoArgs(1,2) == 3</div><div class="line"></div><div class="line">def closureWithTwoArgsAndExplicitTypes = &#123; int a, int b -&gt; a+b &#125;</div><div class="line">assert closureWithTwoArgsAndExplicitTypes(1,2) == 3</div><div class="line"></div><div class="line">def closureWithTwoArgsAndOptionalTypes = &#123; a, int b -&gt; a+b &#125;</div><div class="line">assert closureWithTwoArgsAndOptionalTypes(1,2) == 3</div><div class="line"></div><div class="line">def closureWithTwoArgAndDefaultValue = &#123; int a, int b=2 -&gt; a+b &#125;</div><div class="line">assert closureWithTwoArgAndDefaultValue(1) == 3</div></pre></td></tr></table></figure>
+<p>隐含参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">当一个闭包没有显式定义一个参数列表时，闭包总是有一个隐式的it参数。如下：</div><div class="line"></div><div class="line">def greeting = &#123; &quot;Hello, $it!&quot; &#125;</div><div class="line">assert greeting(&apos;Patrick&apos;) == &apos;Hello, Patrick!&apos;</div><div class="line">1</div><div class="line">2</div><div class="line">上面的类似下面这个例子：</div><div class="line"></div><div class="line">def greeting = &#123; it -&gt; &quot;Hello, $it!&quot; &#125;</div><div class="line">assert greeting(&apos;Patrick&apos;) == &apos;Hello, Patrick!&apos;</div><div class="line">1</div><div class="line">2</div><div class="line">当然啦，如果你想声明一个不接受任何参数的闭包，且必须限定为没有参数的调用，那么你必须将它声明为一个空的参数列表，如下：</div><div class="line"></div><div class="line">def magicNumber = &#123; -&gt; 42 &#125;</div><div class="line">// this call will fail because the closure doesn&apos;t accept any argument</div><div class="line">magicNumber(11)</div></pre></td></tr></table></figure>
+<p>可变长参数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">Groovy的闭包支持最后一个参数为不定长可变长度的参数，具体用法如下：</div><div class="line"></div><div class="line">def concat1 = &#123; String... args -&gt; args.join(&apos;&apos;) &#125;           </div><div class="line">assert concat1(&apos;abc&apos;,&apos;def&apos;) == &apos;abcdef&apos;                     </div><div class="line">def concat2 = &#123; String[] args -&gt; args.join(&apos;&apos;) &#125;            </div><div class="line">assert concat2(&apos;abc&apos;, &apos;def&apos;) == &apos;abcdef&apos;</div><div class="line"></div><div class="line">def multiConcat = &#123; int n, String... args -&gt;                </div><div class="line">    args.join(&apos;&apos;)*n</div><div class="line">&#125;</div><div class="line">assert multiConcat(2, &apos;abc&apos;,&apos;def&apos;) == &apos;abcdefabcdef&apos;</div></pre></td></tr></table></figure>
+<h3 id="闭包省略调运"><a href="#闭包省略调运" class="headerlink" title="闭包省略调运"></a>闭包省略调运</h3><p>很多方法的最后一个参数都是一个闭包，我们可以在这样的方法调运时进行略写括弧。比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">def debugClosure(int num, String str, Closure closure)&#123;  </div><div class="line">      //dosomething  </div><div class="line">&#125;  </div><div class="line"></div><div class="line">debugClosure(1, &quot;groovy&quot;, &#123;  </div><div class="line">   println&quot;hello groovy!&quot;  </div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>可以看见，当闭包作为闭包或方法的最后一个参数时我们可以将闭包从参数圆括号中提取出来接在最后，如果闭包是唯一的一个参数，则闭包或方法参数所在的圆括号也可以省略；对于有多个闭包参数的，只要是在参数声明最后的，均可以按上述方式省略。</p>
+<h2 id="GDK-Groovy-Development-Kit"><a href="#GDK-Groovy-Development-Kit" class="headerlink" title="GDK(Groovy Development Kit)"></a>GDK(Groovy Development Kit)</h2><p>Groovy除了可以直接使用Java的JDK以外还有自己的一套GDK，其实也就是对JDK的一些类的二次封装罢了；一样，这是GDK官方API文档，写代码中请自行查阅。</p>
+<h3 id="I-O操作"><a href="#I-O操作" class="headerlink" title="I/O操作"></a>I/O操作</h3><p>Groovy提供了很多IO操作的方法，你可以使用Java的那写IO方法，但是没有Groovy的GDK提供的简单牛逼。</p>
+<p>读文件操作：</p>
+<p>我们先来看一个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">//读文件打印脚本</div><div class="line">new File(&apos;/home/temp&apos;, &apos;haiku.txt&apos;).eachLine &#123; line -&gt;</div><div class="line">    println line</div><div class="line">&#125;</div><div class="line"></div><div class="line">//读文件打印及打印行号脚本</div><div class="line">new File(baseDir, &apos;haiku.txt&apos;).eachLine &#123; line, nb -&gt;</div><div class="line">    println &quot;Line $nb: $line&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>可以看见，这是一个读文件打印每行的脚本，eachLine方法是GDK中File的方法，eachLine的参数是一个闭包，这里采用了简写省略括弧。</p>
+<p>当然了，有时候你可能更加喜欢用Reader来操作，使用Reader时即使抛出异常也会自动关闭IO。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">def count = 0, MAXSIZE = 3</div><div class="line">new File(baseDir,&quot;haiku.txt&quot;).withReader &#123; reader -&gt;</div><div class="line">    while (reader.readLine()) &#123;</div><div class="line">        if (++count &gt; MAXSIZE) &#123;</div><div class="line">            throw new RuntimeException(&apos;Haiku should only have 3 verses&apos;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>接着我们再看几个关于读文件的操作使用，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//把读到的文件行内容全部存入List列表中</div><div class="line">def list = new File(baseDir, &apos;haiku.txt&apos;).collect &#123;it&#125;</div><div class="line">//把读到的文件行内容全部存入String数组列表中</div><div class="line">def array = new File(baseDir, &apos;haiku.txt&apos;) as String[]</div><div class="line">//把读到的文件内容全部转存为byte数组</div><div class="line">byte[] contents = file.bytes</div><div class="line"></div><div class="line">//把读到的文件转为InputStream，切记此方式需要手动关闭流</div><div class="line">def is = new File(baseDir,&apos;haiku.txt&apos;).newInputStream()</div><div class="line">// do something ...</div><div class="line">is.close()</div><div class="line"></div><div class="line">//把读到的文件以InputStream闭包操作，此方式不需要手动关闭流</div><div class="line">new File(baseDir,&apos;haiku.txt&apos;).withInputStream &#123; stream -&gt;</div><div class="line">    // do something ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面介绍了一些常用的文件读操作，其它的具体参见API和GDK吧。</p>
+<p>写文件操作：</p>
+<p>有了上面的读操作，接下来直接看几个写操作的例子得了，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//向一个文件以utf-8编码写三行文字</div><div class="line">new File(baseDir,&apos;haiku.txt&apos;).withWriter(&apos;utf-8&apos;) &#123; writer -&gt;</div><div class="line">    writer.writeLine &apos;Into the ancient pond&apos;</div><div class="line">    writer.writeLine &apos;A frog jumps&apos;</div><div class="line">    writer.writeLine &apos;Water’s sound!&apos;</div><div class="line">&#125;</div><div class="line">//上面的写法可以直接替换为此写法</div><div class="line">new File(baseDir,&apos;haiku.txt&apos;) &lt;&lt; &apos;&apos;&apos;Into the ancient pond</div><div class="line">A frog jumps</div><div class="line">Water’s sound!&apos;&apos;&apos;</div><div class="line">//直接以byte数组形式写入文件</div><div class="line">file.bytes = [66,22,11]</div><div class="line">//类似上面读操作，可以使用OutputStream进行输出流操作，记得手动关闭</div><div class="line">def os = new File(baseDir,&apos;data.bin&apos;).newOutputStream()</div><div class="line">// do something ...</div><div class="line">os.close()</div><div class="line">//类似上面读操作，可以使用OutputStream闭包进行输出流操作，不用手动关闭</div><div class="line">new File(baseDir,&apos;data.bin&apos;).withOutputStream &#123; stream -&gt;</div><div class="line">    // do something ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面介绍了一些常用的文件写操作，其它的具体参见API和GDK吧。</p>
+<p>文件树操作：</p>
+<p>在脚本环境中，遍历一个文件树是很常见的需求，Groovy提供了多种方法来满足这个需求。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">//遍历所有指定路径下文件名打印</div><div class="line">dir.eachFile &#123; file -&gt;                      </div><div class="line">    println file.name</div><div class="line">&#125;</div><div class="line">//遍历所有指定路径下符合正则匹配的文件名打印</div><div class="line">dir.eachFileMatch(~/.*\.txt/) &#123; file -&gt;     </div><div class="line">    println file.name</div><div class="line">&#125;</div><div class="line">//深度遍历打印名字</div><div class="line">dir.eachFileRecurse &#123; file -&gt;                      </div><div class="line">    println file.name</div><div class="line">&#125;</div><div class="line">//深度遍历打印名字，只包含文件类型</div><div class="line">dir.eachFileRecurse(FileType.FILES) &#123; file -&gt;      </div><div class="line">    println file.name</div><div class="line">&#125;</div><div class="line">//允许设置特殊标记规则的遍历操作</div><div class="line">dir.traverse &#123; file -&gt;</div><div class="line">    if (file.directory &amp;&amp; file.name==&apos;bin&apos;) &#123;</div><div class="line">        FileVisitResult.TERMINATE                   </div><div class="line">    &#125; else &#123;</div><div class="line">        println file.name</div><div class="line">        FileVisitResult.CONTINUE                    </div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>执行外部程序：</p>
+<p>Groovy提供一种简单方式来处理执行外部命令行后的输出流操作。如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def process = &quot;ls -l&quot;.execute()             </div><div class="line">println &quot;Found text $&#123;process.text&#125;&quot;</div><div class="line">1</div><div class="line">2</div></pre></td></tr></table></figure>
+<p>execute方法返回一个java.lang.Process对象，支持in、out、err的信息反馈。在看一个例子，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">def process = &quot;ls -l&quot;.execute()             </div><div class="line">process.in.eachLine &#123; line -&gt;               </div><div class="line">    println line                            </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面使用闭包操作打印出执行命令行的输入流信息。</p>
+<h3 id="有用的工具类操作"><a href="#有用的工具类操作" class="headerlink" title="有用的工具类操作"></a>有用的工具类操作</h3><h4 id="ConfigSlurper配置："><a href="#ConfigSlurper配置：" class="headerlink" title="ConfigSlurper配置："></a>ConfigSlurper配置：</h4><p>ConfigSlurper是一个配置管理文件读取工具类，类似于Java的*.properties文件，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">def config = new ConfigSlurper().parse(&apos;&apos;&apos;</div><div class="line">    app.date = new Date()  </div><div class="line">    app.age  = 42</div><div class="line">    app &#123;                  </div><div class="line">        name = &quot;Test$&#123;42&#125;&quot;</div><div class="line">    &#125;</div><div class="line">&apos;&apos;&apos;)</div><div class="line"></div><div class="line">assert config.app.date instanceof Date</div><div class="line">assert config.app.age == 42</div><div class="line">assert config.app.name == &apos;Test42&apos;</div></pre></td></tr></table></figure>
+<p>上面介绍了一些常用的属性配置操作，其它的具体参见API和GDK吧。</p>
+<h4 id="Expando扩展："><a href="#Expando扩展：" class="headerlink" title="Expando扩展："></a>Expando扩展：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">def expando = new Expando()</div><div class="line">expando.toString = &#123; -&gt; &apos;John&apos; &#125;</div><div class="line">expando.say = &#123; String s -&gt; &quot;John says: $&#123;s&#125;&quot; &#125;</div><div class="line"></div><div class="line">assert expando as String == &apos;John&apos;</div><div class="line">assert expando.say(&apos;Hi&apos;) == &apos;John says: Hi&apos;</div></pre></td></tr></table></figure>
+<p>上面介绍了一些常用的拓展操作，其它的具体参见API和GDK吧。</p>
+<h3 id="其他操作"><a href="#其他操作" class="headerlink" title="其他操作"></a>其他操作</h3><p>还有很多其他操作，这里就不一一列举，详情参考官方文档即可，譬如JSON处理、XML解析啥玩意的，自行需求摸索吧。</p>
+<h2 id="DSL-Domain-Specific-Languages-领域相关语言"><a href="#DSL-Domain-Specific-Languages-领域相关语言" class="headerlink" title="DSL(Domain Specific Languages)领域相关语言"></a>DSL(Domain Specific Languages)领域相关语言</h2><p>这个就不特殊说明了，只在这里提一下，因为我们前边很多地方已经用过它了，加上我们只是干货基础掌握，所以不做深入探讨。</p>
+<p>DSL是一种特定领域的语言（功能领域、业务领域），Groovy是通用的编程语言，所以不是DSL，但是Groovy却对编写全新的DSL提供了很好的支持，这些支持来自于Groovy自身语法的特性，如下：</p>
+<ul>
+<li>Groovy不需用定义CLASS类就可以直接执行脚本；</li>
+<li></li>
+<li>Groovy语法省略括弧和语句结尾分号等操作；</li>
+</ul>
+<p>所以说这个基础入门没必要特别深入理解，简单的前面都用过了，理解DSL作用即可，点到为止，详情参考官方文档。</p>
+<h2 id="Groovy脚本基础总结"><a href="#Groovy脚本基础总结" class="headerlink" title="Groovy脚本基础总结"></a>Groovy脚本基础总结</h2><p>其实没啥总结的，Groovy其实可以当做Java来看待，只是它提供的支持比Java还好而已，在学习Groovy是一定要和Java进行对比学习，这样才能速成基础。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CI-CD/" rel="tag"># CI-CD</a>
+          
+            <a href="/tags/GROOVY/" rel="tag"># GROOVY</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/21/full-stack/WEB/jquery select2使用js赋值/" rel="next" title="jquery select2使用js赋值">
+                <i class="fa fa-chevron-left"></i> jquery select2使用js赋值
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/21/language/groovy/groovy语法/" rel="prev" title="groovy基础">
+                groovy基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://opqnf9p09.bkt.clouddn.com/head.png"
+                alt="JIMI" />
+            
+              <p class="site-author-name" itemprop="name">JIMI</p>
+              <p class="site-description motion-element" itemprop="description">努力超越那个谁</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/banghuaji" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhenghongzhi.cn/" title="郑洪志" target="_blank">郑洪志</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#背景"><span class="nav-number">1.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#快速安装指南："><span class="nav-number">2.</span> <span class="nav-text">快速安装指南：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语法基础"><span class="nav-number">3.</span> <span class="nav-text">语法基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#注释"><span class="nav-number">3.1.</span> <span class="nav-text">注释</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关键字"><span class="nav-number">3.2.</span> <span class="nav-text">关键字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标识符"><span class="nav-number">3.3.</span> <span class="nav-text">标识符</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通标识符"><span class="nav-number">3.3.1.</span> <span class="nav-text">普通标识符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#引用标识符"><span class="nav-number">3.3.2.</span> <span class="nav-text">引用标识符</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字符及字符串"><span class="nav-number">3.4.</span> <span class="nav-text">字符及字符串</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单引号字符串"><span class="nav-number">3.4.1.</span> <span class="nav-text">单引号字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三重单引号字符串"><span class="nav-number">3.4.2.</span> <span class="nav-text">三重单引号字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双引号字符串"><span class="nav-number">3.4.3.</span> <span class="nav-text">双引号字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多重双引号字符串"><span class="nav-number">3.4.4.</span> <span class="nav-text">多重双引号字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#斜线字符串"><span class="nav-number">3.4.5.</span> <span class="nav-text">斜线字符串</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字符Characters"><span class="nav-number">3.4.6.</span> <span class="nav-text">字符Characters</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数字Numbers"><span class="nav-number">3.5.</span> <span class="nav-text">数字Numbers</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#整型"><span class="nav-number">3.5.1.</span> <span class="nav-text">整型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#浮点型"><span class="nav-number">3.5.2.</span> <span class="nav-text">浮点型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Booleans类型"><span class="nav-number">3.5.3.</span> <span class="nav-text">Booleans类型</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Lists类型"><span class="nav-number">3.6.</span> <span class="nav-text">Lists类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Arrays类型"><span class="nav-number">3.7.</span> <span class="nav-text">Arrays类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Maps类型"><span class="nav-number">3.8.</span> <span class="nav-text">Maps类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运算符"><span class="nav-number">4.</span> <span class="nav-text">运算符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#程序结构"><span class="nav-number">5.</span> <span class="nav-text">程序结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#包名"><span class="nav-number">5.1.</span> <span class="nav-text">包名</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Imports引入"><span class="nav-number">5.2.</span> <span class="nav-text">Imports引入</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#脚本与类（脚本的实质）"><span class="nav-number">5.3.</span> <span class="nav-text">脚本与类（脚本的实质）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#闭包"><span class="nav-number">6.</span> <span class="nav-text">闭包</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">6.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参数"><span class="nav-number">6.2.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包省略调运"><span class="nav-number">6.3.</span> <span class="nav-text">闭包省略调运</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#GDK-Groovy-Development-Kit"><span class="nav-number">7.</span> <span class="nav-text">GDK(Groovy Development Kit)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O操作"><span class="nav-number">7.1.</span> <span class="nav-text">I/O操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#有用的工具类操作"><span class="nav-number">7.2.</span> <span class="nav-text">有用的工具类操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ConfigSlurper配置："><span class="nav-number">7.2.1.</span> <span class="nav-text">ConfigSlurper配置：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Expando扩展："><span class="nav-number">7.2.2.</span> <span class="nav-text">Expando扩展：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他操作"><span class="nav-number">7.3.</span> <span class="nav-text">其他操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#DSL-Domain-Specific-Languages-领域相关语言"><span class="nav-number">8.</span> <span class="nav-text">DSL(Domain Specific Languages)领域相关语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Groovy脚本基础总结"><span class="nav-number">9.</span> <span class="nav-text">Groovy脚本基础总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JIMI</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

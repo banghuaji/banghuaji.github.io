@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/QQ截图20171015140807.jpg?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Docker,TOMCAT," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="最近学习DOCKR技术，在配置TOMCAT的时候发现要配置Xms，Xmx相关的参数，进而优化DOCKER的性能 JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap最大值，默认值为物理内存的1/4；-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；-Xmn">
+<meta name="keywords" content="Docker,TOMCAT">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Tomcat中JVM内存溢出及合理配置">
+<meta property="og:url" content="https://banghuaji.github.io/2018/09/21/language/java/Tomcat中JVM内存溢出及合理配置/index.html">
+<meta property="og:site_name" content="JIMI的博客">
+<meta property="og:description" content="最近学习DOCKR技术，在配置TOMCAT的时候发现要配置Xms，Xmx相关的参数，进而优化DOCKER的性能 JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap最大值，默认值为物理内存的1/4；-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；-Xmn">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-12-24T07:10:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Tomcat中JVM内存溢出及合理配置">
+<meta name="twitter:description" content="最近学习DOCKR技术，在配置TOMCAT的时候发现要配置Xms，Xmx相关的参数，进而优化DOCKER的性能 JVM内存分配设置的参数有四个12345678910111213141516-Xmx    Java Heap最大值，默认值为物理内存的1/4；-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；-Xmn">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.3',
+    sidebar: {"position":"right","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://banghuaji.github.io/2018/09/21/language/java/Tomcat中JVM内存溢出及合理配置/"/>
+
+
+
+
+
+  <title>Tomcat中JVM内存溢出及合理配置 | JIMI的博客</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?06d8ad0ca4fc329dab889818aba53f39";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-right page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">JIMI的博客</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">主孰有道？将孰有能？天地孰得？法令孰行？兵众孰强？士卒孰练？赏罚孰明？吾以此知胜负矣。</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-customizeds">
+          <a href="/customizeds/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            联系方式
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/language/java/Tomcat中JVM内存溢出及合理配置/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="JIMI">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="http://opqnf9p09.bkt.clouddn.com/head.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="JIMI的博客">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Tomcat中JVM内存溢出及合理配置</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:58+08:00">
+                2018-09-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近学习DOCKR技术，在配置TOMCAT的时候发现要配置Xms，Xmx相关的参数，进而优化DOCKER的性能</p>
+<h3 id="JVM内存分配设置的参数有四个"><a href="#JVM内存分配设置的参数有四个" class="headerlink" title="JVM内存分配设置的参数有四个"></a>JVM内存分配设置的参数有四个</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">-Xmx    Java Heap最大值，默认值为物理内存的1/4；</div><div class="line"></div><div class="line">-Xms    Java Heap初始值，Server端JVM最好将-Xms和-Xmx设为相同值，开发测试机JVM可以保留默认值；</div><div class="line"></div><div class="line">-Xmn    Java Heap Young区大小，不熟悉最好保留默认值；</div><div class="line"></div><div class="line">-Xss      每个线程的Stack大小，不熟悉最好保留默认值；</div><div class="line"></div><div class="line">-XX:PermSize：设定内存的永久保存区域； </div><div class="line">-XX:MaxPermSize：设定最大内存的永久保存区域；</div><div class="line"></div><div class="line">-XX:PermSize：设定内存的永久保存区域；</div><div class="line"></div><div class="line">-XX:NewSize：设置JVM堆的‘新生代’的默认大小；</div><div class="line"></div><div class="line">-XX:MaxNewSize：设置JVM堆的‘新生代’的最大大小；</div></pre></td></tr></table></figure>
+<h3 id="当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）："><a href="#当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）：" class="headerlink" title="当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）："></a>当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">JAVA_OPTS=&quot;-server -Xms800m -Xmx800m -XX:PermSize=64M -XX:MaxNewSize=256m -XX:MaxPermSize=128m -Djava.awt.headless=true &quot;</div><div class="line"></div><div class="line">java -Xms64m -Xmx256m Test -Xms是设置内存初始化的大小 -Xmx是设置最大能够使用内存的大小。</div></pre></td></tr></table></figure>
+<h3 id="Java-JVM内存介绍"><a href="#Java-JVM内存介绍" class="headerlink" title="Java JVM内存介绍"></a>Java JVM内存介绍</h3><h4 id="JVM管理两种类型的内存，堆和非堆。"><a href="#JVM管理两种类型的内存，堆和非堆。" class="headerlink" title="JVM管理两种类型的内存，堆和非堆。"></a>JVM管理两种类型的内存，堆和非堆。</h4><h5 id="堆："><a href="#堆：" class="headerlink" title="堆："></a>堆：</h5><p>Java 虚拟机具有一个堆，堆是运行时数据区域，所有类实例和数组的内存均从此处分配。堆是在 Java 虚拟机启动时创建的</p>
+<h5 id="在JVM中堆之外的内存称为非堆内存-Non-heap-memory-（当然JAVA8中此处已经改为采用机器的元内存）"><a href="#在JVM中堆之外的内存称为非堆内存-Non-heap-memory-（当然JAVA8中此处已经改为采用机器的元内存）" class="headerlink" title="在JVM中堆之外的内存称为非堆内存(Non-heap memory)（当然JAVA8中此处已经改为采用机器的元内存）"></a>在JVM中堆之外的内存称为非堆内存(Non-heap memory)（当然JAVA8中此处已经改为采用机器的元内存）</h5><p>简单来说堆就是Java代码可及的内存，是留给开发人员使用的；非堆就是JVM留给自己用的，所以方法区、JVM内部处理或优化所需的内存(如JIT编译后的代码缓存)、每个类结构(如运行时常数池、字段和方法数据)以及方法和构造方法的代码都在非堆内存中，它和堆不同，运行期内GC不会释放其空间。</p>
+<h4 id="堆内存分配"><a href="#堆内存分配" class="headerlink" title="堆内存分配"></a>堆内存分配</h4><h5 id="默认设置"><a href="#默认设置" class="headerlink" title="默认设置"></a>默认设置</h5><p>JVM初始分配的内存由-Xms指定，默认是物理内存的1/64；JVM最大分配的内存由-Xmx指 定，默认是物理内存的1/4。默认空余堆内存小于 40%时，JVM就会增大堆直到-Xmx的最大限制；空余堆内存大于70%时，JVM会减少堆直到-Xms的最小限制。因此服务器一般设置-Xms、 -Xmx相等以避免在每次GC 后调整堆的大小</p>
+<blockquote>
+<p>可以利用JVM提供的-Xmn -Xms -Xmx等选项可进行堆内存设置，一般的要将-Xms和-Xmx选项设置为相同，而-Xmn为1/4的-Xmx值，建议堆的最大值设置为可用内存的最大值的80%。</p>
+</blockquote>
+<h4 id="非堆内存分配"><a href="#非堆内存分配" class="headerlink" title="非堆内存分配"></a>非堆内存分配</h4><p>也叫永久保存的区域，用于存放Class和Meta信息,Class在被Load的时候被放入该区域。它和存放类实例(Instance)的Heap区域不同,GC(Garbage Collection)不会在主程序运行期对PermGen space进行清理。JVM使用-XX:PermSize设置非堆内存初始值，默认是物理内存的1/64；由XX:MaxPermSize设置最大非堆内存的大小，默认是物理内存的1/4。 GC不会对PermGen space进行清理，所以如果你的APP会LOAD很多CLASS的话,就很可能出现PermGen space错误。</p>
+<h4 id="JVM内存限制-最大值"><a href="#JVM内存限制-最大值" class="headerlink" title="JVM内存限制(最大值)"></a>JVM内存限制(最大值)</h4><p>首先JVM内存限制于实际的最大物理内存（废话！，呵呵），假设物理内存无限大的话，JVM内存的最大值跟操作系统有很大的关系。简单的说就32位处理器虽然可控内存空间有4GB,但是具体的操作系统会给一个限制，这个限制一般是2GB-3GB（一般来说Windows系统下为1.5G-2G，Linux系统 下为2G-3G），而64bit以上的处理器就不会有限制了。</p>
+<h3 id="三种内存溢出异常介绍"><a href="#三种内存溢出异常介绍" class="headerlink" title="三种内存溢出异常介绍"></a>三种内存溢出异常介绍</h3><h4 id="OutOfMemoryError：-Java-heap-space-堆溢出"><a href="#OutOfMemoryError：-Java-heap-space-堆溢出" class="headerlink" title="OutOfMemoryError： Java heap space  堆溢出"></a>OutOfMemoryError： Java heap space  堆溢出</h4><p>内存溢出主要存在问题就是出现在这个情况中。当在JVM中如果98％的时间是用于GC且可用的 Heap size 不足2％的时候将抛出此异常信息。</p>
+<h4 id="OutOfMemoryError：-PermGen-space-非堆溢出（永久保存区域溢出）"><a href="#OutOfMemoryError：-PermGen-space-非堆溢出（永久保存区域溢出）" class="headerlink" title="OutOfMemoryError： PermGen space   非堆溢出（永久保存区域溢出）"></a>OutOfMemoryError： PermGen space   非堆溢出（永久保存区域溢出）</h4><p>这种错误常见在web服务器对JSP进行pre compile的时候。如果你的WEB APP下都用了大量的第三方jar, 其大小超过了jvm默认的大小(4M)那么就会产生此错误信息了。如果web app用了大量的第三方jar或者应用有太多的class文件而恰好MaxPermSize设置较小，超出了也会导致这块内存的占用过多造成溢出，或者tomcat热部署时侯不会清理前面加载的环境，只会将context更改为新部署的，非堆存的内容就会越来越多。</p>
+<h4 id="OutOfMemoryError：-unable-to-create-new-native-thread-无法创建新的线程"><a href="#OutOfMemoryError：-unable-to-create-new-native-thread-无法创建新的线程" class="headerlink" title="OutOfMemoryError： unable to create new native thread.   无法创建新的线程"></a>OutOfMemoryError： unable to create new native thread.   无法创建新的线程</h4><p>这种现象比较少见，也比较奇怪，主要是和jvm与系统内存的比例有关。这种怪事是因为JVM已经被系统分配了大量的内存（比如1.5G），并且它至少要占用可用内存的一半。</p>
+<h3 id="JVM内存配置与GC（相辅相成的工作）"><a href="#JVM内存配置与GC（相辅相成的工作）" class="headerlink" title="JVM内存配置与GC（相辅相成的工作）"></a>JVM内存配置与GC（相辅相成的工作）</h3><p>需要考虑的是Java提供的垃圾回收机制。JVM的堆大小决定了JVM花费在收集垃圾上的时间和频度。收集垃圾可以接受的速度与应用有关，应该通过分析实际的垃圾收集的时间和频率来调整。如果堆的大小很大，那么完全垃圾收集就会很慢，但是频度会降低。如果你把堆的大小和内存的需要一致，完全收集就很快，但是会更加频繁。调整堆大小的的目的是最小化垃圾收集的时间，以在特定的时间内最大化处理客户的请求。在基准测试的时候，为保证最好的性能，要把堆的大小设大，保证垃圾收集不在整个基准测试的过程中出现。如果系统花费很多的时间收集垃圾，请减小堆大小。一次完全的垃圾收集应该不超过 3-5 秒。如果垃圾收集成为瓶颈，那么需要指定堆的大小，检查垃圾收集的详细输出，研究垃圾收集参数对性能的影响。一般说来，你应该使用物理内存的 80% 作为堆大小。当增加处理器时，记得增加内存，因为分配可以并行进行，而垃圾收集不是并行的。</p>
+<h4 id="Java-Heap分为3个区："><a href="#Java-Heap分为3个区：" class="headerlink" title="Java Heap分为3个区："></a>Java Heap分为3个区：</h4><ul>
+<li>1.Young </li>
+<li>2.Old </li>
+<li>3.Permanent。<blockquote>
+<p>Young保存刚实例化的对象。当该区被填满时，GC会将对象移到Old区。Permanent区则负责保存反射对象，本文不讨论该区。</p>
+</blockquote>
+</li>
+</ul>
+<h4 id="JVM有2个GC线程："><a href="#JVM有2个GC线程：" class="headerlink" title="JVM有2个GC线程："></a>JVM有2个GC线程：</h4><blockquote>
+<p>第一个线程负责回收Heap的Young区；<br>第二个线程在Heap不足时，遍历Heap，将Young 区升级为Older区，Older区的大小等于-Xmx减去-Xmn，不能将-Xms的值设的过大，因为第二个线程被迫运行会降低JVM的性能。</p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+            <a href="/tags/TOMCAT/" rel="tag"># TOMCAT</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/21/language/java/Java的SystemInfoUtil/" rel="next" title="Java的SystemInfoUtil类">
+                <i class="fa fa-chevron-left"></i> Java的SystemInfoUtil类
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/21/language/java/冒泡排序/" rel="prev" title="冒泡的排序">
+                冒泡的排序 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="http://opqnf9p09.bkt.clouddn.com/head.png"
+                alt="JIMI" />
+            
+              <p class="site-author-name" itemprop="name">JIMI</p>
+              <p class="site-description motion-element" itemprop="description">努力超越那个谁</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">34</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">1</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">20</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="https://github.com/banghuaji" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-globe"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="http://www.zhenghongzhi.cn/" title="郑洪志" target="_blank">郑洪志</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM内存分配设置的参数有四个"><span class="nav-number">1.</span> <span class="nav-text">JVM内存分配设置的参数有四个</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）："><span class="nav-number">2.</span> <span class="nav-text">当在服务器环境下（如Tomcat）启动并使用JVM时（对当前服务器环境下所以Java程序生效）：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-JVM内存介绍"><span class="nav-number">3.</span> <span class="nav-text">Java JVM内存介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM管理两种类型的内存，堆和非堆。"><span class="nav-number">3.1.</span> <span class="nav-text">JVM管理两种类型的内存，堆和非堆。</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#堆："><span class="nav-number">3.1.1.</span> <span class="nav-text">堆：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在JVM中堆之外的内存称为非堆内存-Non-heap-memory-（当然JAVA8中此处已经改为采用机器的元内存）"><span class="nav-number">3.1.2.</span> <span class="nav-text">在JVM中堆之外的内存称为非堆内存(Non-heap memory)（当然JAVA8中此处已经改为采用机器的元内存）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#堆内存分配"><span class="nav-number">3.2.</span> <span class="nav-text">堆内存分配</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#默认设置"><span class="nav-number">3.2.1.</span> <span class="nav-text">默认设置</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非堆内存分配"><span class="nav-number">3.3.</span> <span class="nav-text">非堆内存分配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM内存限制-最大值"><span class="nav-number">3.4.</span> <span class="nav-text">JVM内存限制(最大值)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三种内存溢出异常介绍"><span class="nav-number">4.</span> <span class="nav-text">三种内存溢出异常介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#OutOfMemoryError：-Java-heap-space-堆溢出"><span class="nav-number">4.1.</span> <span class="nav-text">OutOfMemoryError： Java heap space  堆溢出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OutOfMemoryError：-PermGen-space-非堆溢出（永久保存区域溢出）"><span class="nav-number">4.2.</span> <span class="nav-text">OutOfMemoryError： PermGen space   非堆溢出（永久保存区域溢出）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OutOfMemoryError：-unable-to-create-new-native-thread-无法创建新的线程"><span class="nav-number">4.3.</span> <span class="nav-text">OutOfMemoryError： unable to create new native thread.   无法创建新的线程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JVM内存配置与GC（相辅相成的工作）"><span class="nav-number">5.</span> <span class="nav-text">JVM内存配置与GC（相辅相成的工作）</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java-Heap分为3个区："><span class="nav-number">5.1.</span> <span class="nav-text">Java Heap分为3个区：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JVM有2个GC线程："><span class="nav-number">5.2.</span> <span class="nav-text">JVM有2个GC线程：</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2015 &mdash; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">JIMI</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.3"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

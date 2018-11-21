@@ -262,7 +262,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/language/java/异步调用/">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/deploy/docker/Docker(一)--安装/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JIMI">
@@ -281,7 +281,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/01/language/java/异步调用/" itemprop="url">异步调用线程</a></h1>
+                <a class="post-title-link" href="/2018/09/21/deploy/docker/Docker(一)--安装/" itemprop="url">Docker安装与调试</a></h1>
         
 
         <div class="post-meta">
@@ -293,8 +293,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:14+08:00">
-                2017-10-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:57+08:00">
+                2018-09-21
               </time>
             
 
@@ -333,12 +333,16 @@
       
         
           
-          之前的同事给的一个例子
-123456789101112131415161718192021222324252627282930313233343536373839404142import java.util.concurrent.Callable;import java.util.concurrent.CompletableFuture;import java.util.function.Consumer;public class CallbackDemo &#123;    public static void main(String[] args) throws InterruptedException &#123;        // 异步调用运程方法，结束后数据写入数据库        asyncCall(new Callable&lt;String&gt;() &#123; // &lt;- 这个是请求方法            @Override            public String call() throws Exception &#123;         
+          linux—centos下面安装docker的官方安装文档：由docker给的文档可以看出它也只是去配置了一个docker的yum源、然后就通过这个源来安装docker了；在这个文档下我们采用手工配置
+1https://docs.docker.com/engine/installation/linux/centos/
+必备条件1、LINUX centos 7以上可以通过1uname -r
+1234567lsb_release -a[root@localhost docker]# lsb_release -aLSB Version:	:core-4.1-amd64:core-4.1-noarchDistributor ID:	CentOSDescription:	CentOS Linux release 7.2.1511 (Core) Release:	7.2.1511Codename:	Core
+配置一个docker用的源：1、为docker 增加一个新的yum配置文件；1touch /etc/yum.repos.d/docker.repo
+2、docker.repo的内容如下1234
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/language/java/异步调用/#more" rel="contents">
+            <a class="btn" href="/2018/09/21/deploy/docker/Docker(一)--安装/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -389,7 +393,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/language/java/冒泡排序/">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/container/kubernetes-module---kube-proxy/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JIMI">
@@ -408,7 +412,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/01/language/java/冒泡排序/" itemprop="url">冒泡的排序</a></h1>
+                <a class="post-title-link" href="/2018/09/21/container/kubernetes-module---kube-proxy/" itemprop="url">kubernetes-module---kube-proxy</a></h1>
         
 
         <div class="post-meta">
@@ -420,8 +424,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:14+08:00">
-                2017-10-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:57+08:00">
+                2018-09-21
               </time>
             
 
@@ -460,11 +464,14 @@
       
         
           
-          冒泡的排序1234567891011121314151617181920212223public class BubbleSort&#123;     public static void main(String[] args)&#123;         int score[] = &#123;67, 69, 75, 87, 89, 90, 99, 100&#125;;         for (int i = 0; i &lt; score.length -1; i++)&#123;    //最多做n-1趟排序             for(int j = 0 ;j &lt; score.length - i - 1; j++)&#123;    //对当前无序区间score[0......length-i-1]进行排序(j的范围很关键，这个范围是在逐步缩小的)                 if(score[j] &lt; score[j + 1])&#123;    //把小的值交换到后面                     int temp = score[j]; 
+          kubernetes版本大于或者等于1.2时，外部网络（即非K8S集群内的网络）访问cluster IP的办法是：修改master的/etc/kubernetes/proxy，把KUBE_PROXY_ARGS=”“改为KUBE_PROXY_ARGS=”–proxy-mode=userspace” 
+kuer-proxy目前有userspace和iptables两种实现方式。userspace（如下图）是在用户空间，通过kuber-proxy实现LB的代理服务。在K8S1.2版本之前，是kube-proxy默认方式，所有的转发都是通过kube-proxy实现的。这个是kube-proxy的最初的版本，较为稳定，但是效率也自然不太高。
+另外一种方式是iptables方式（如下图）。是纯采用iptables来实现LB。在K8S1.2版本之后，kube-proxy默认方式。所有转发都是通过Iptables内核模块实现，而kube-proxy只负责生成相应的Iptables规则。
+iptable解析iptables的方式则是利用了linux的iptables的nat转发进行实现123456789
           ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/language/java/冒泡排序/#more" rel="contents">
+            <a class="btn" href="/2018/09/21/container/kubernetes-module---kube-proxy/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -515,7 +522,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/thoughts/测试的现状/">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/cloud-service/VPS，虚拟主机，云主机，独立服务器/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JIMI">
@@ -534,7 +541,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/01/thoughts/测试的现状/" itemprop="url">测试现状</a></h1>
+                <a class="post-title-link" href="/2018/09/21/cloud-service/VPS，虚拟主机，云主机，独立服务器/" itemprop="url">VPS，虚拟主机，云主机，独立服务器</a></h1>
         
 
         <div class="post-meta">
@@ -546,8 +553,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:14+08:00">
-                2017-10-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:57+08:00">
+                2018-09-21
               </time>
             
 
@@ -586,17 +593,30 @@
       
         
           
-          下面两个文档体现出软件测试的现状测试的主要工作：1、保证质量（本职的工作）
-2、背锅？？
-welcome to
-51testing
-Testingba工作室
-现在很多公司的做法很多所谓的移动互联网公司完全不注重测试，把用户当做一手的测试人员，后台收集bug数据，一周发两个版本也是家常便饭。。。
+          独立服务器
+独立服务器，顾名思义，就是一个躺在机房的实实在在的物理服务器，也可理解为你的游戏主机一样。
 
-          
+优点：性能高
+
+缺点：价格高，高可用性低（比如断电，硬盘坏了……）
+
+VPS
+Virtual Private Server 虚拟专用服务器,一般是将一个独立服务器通过虚拟化技术虚拟成多个虚拟专用服务器。
+优点：价格便宜缺点：性能低，高可用性低（除了其所在的物理机出问题了会收到影响，虚拟化技术出问题也会收到影响）
+
+云服务器
+Elastic Compute Service, 简称ECS 好多人理解云服务器和VPS一样，更有甚者说以前的VPS现在的说法就是云服务器，其实不然，云服务器是一个计算，网络，存储的组合。简单点说就是通过多个CPU，内存，硬盘组成的计算池和存储池和网络的组合。
+优点：价格适中，使用灵活，高可用性（单个或多个物理离线不会对整个服务造成太大的影响）
+缺点：性能相对较低
+
+虚拟主机Virtual  hosts
+（Vhost）虚拟主机是通过，物理服务器，VPS或者云服务器安装例如CPanel，Plesk等面板搭建的。
+
+总结：如过只是做一个小网站，个人博客等用虚拟主机就
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/thoughts/测试的现状/#more" rel="contents">
+            <a class="btn" href="/2018/09/21/cloud-service/VPS，虚拟主机，云主机，独立服务器/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -647,7 +667,7 @@ Testingba工作室
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2017/10/01/thoughts/高级测试工程师技术基础/">
+    <link itemprop="mainEntityOfPage" href="https://banghuaji.github.io/2018/09/21/autotest/自动化目的以及答疑/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="JIMI">
@@ -666,7 +686,7 @@ Testingba工作室
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2017/10/01/thoughts/高级测试工程师技术基础/" itemprop="url">高级测试工程师技术基础</a></h1>
+                <a class="post-title-link" href="/2018/09/21/autotest/自动化目的以及答疑/" itemprop="url">自动化目的以及答疑</a></h1>
         
 
         <div class="post-meta">
@@ -678,8 +698,8 @@ Testingba工作室
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T20:45:14+08:00">
-                2017-10-01
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-09-21T10:17:57+08:00">
+                2018-09-21
               </time>
             
 
@@ -718,13 +738,21 @@ Testingba工作室
       
         
           
-          下面是之前测试总监整理的【高级测试工程师】所应该具备的技能：
+          自动化的目的
+把测试从枯燥的重复劳动中解放出来，例如：回归测试等；
+协助手工测试完成很难模拟或无法模拟的的工作，例如：篡改服务返回的数据验证前端对各种数据场景的处理，弱网模拟、特殊协议数据包解析验证等；
+尽早发现Bug，例如：数据层的存储过程、Package批量调用验证、接口自动化等偏底层的问题；
+协助定位问题，现在的自动化提出了更高的要求，例如：接口层发现问题了，可以通过添加的traceID定位到日志错误或错误代码行，app运行中异常可捕获错误日志等；
+线上监控报警，现在的自动化不仅限于线下，线上的也已覆盖，测试和运维的工作可能存在交集，我们不能把质量问题寄托于他人，一旦发现问题，立即报警通知到人，让损失到最小。
+提高工作效率，这个面有点广，例如，测试环境的自动化编译、打包、部署、持续集成甚至持续交付等。
 
-
-          
+关于自动化介入的若干问题
+是否要考虑成本？ 当然要考虑，我们总会遇到在成本和质量之间找平衡点，可能一些特殊的行业，特殊的项目，质量的权重更高点，如果引入自动化能提高质量，该介入的还是要介入。
+是不是只有大公司能做， 小公司和初创公司就不适合搞自动化？这不是绝对的，还是要看公司的资
+          ...
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2017/10/01/thoughts/高级测试工程师技术基础/#more" rel="contents">
+            <a class="btn" href="/2018/09/21/autotest/自动化目的以及答疑/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
